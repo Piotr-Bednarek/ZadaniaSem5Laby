@@ -4,6 +4,8 @@ import scipy.signal as sp
 
 from scipy.integrate import odeint
 
+from plotfunc import plot_sets
+
 kp = 2
 T = 10
 
@@ -69,6 +71,8 @@ def PlotStepResponse():
     plt.title('Step response of the same system in diffrent notations')
     plt.legend()
     plt.show()
+
+    plot_sets([t1,y1,title1])
 
     #odpowiedzi takie same (kto by sie spodziewal)
     #forma reprezentacji nie zmienia wyjscia system reaguje tak samo na jednakowe pobudzenia 
@@ -211,11 +215,11 @@ def PlotBodeCharacteristic():
 
 
 def main():
-    #PlotStepResponse()
+    PlotStepResponse()
     #PlotRlcResponse()
     #PlotManipulatorStepResponse()
     #PlotManipulatorRampResponse()
-    PlotBodeCharacteristic()
+    #PlotBodeCharacteristic()
     pass
 
 if __name__=="__main__":
