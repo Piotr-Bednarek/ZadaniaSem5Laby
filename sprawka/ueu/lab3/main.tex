@@ -64,7 +64,7 @@ urządzenie ELVIS II.
     \label{fig:placeholder}
 \end{figure}
 
-Napiecie $U_2$ mozna okreslic jako:
+Napięcie $U_2$ można okreslić jako:
 \[
 U_3=-R_3\bigg( \frac{U_1}{R_1} +\frac{U_2}{R_2}\bigg)
 \]
@@ -87,7 +87,7 @@ wiec:
 -U_3=U_1+2\cdot U_2 
 \]
 
-sygnał wynikowy bedzie przeciwna w fazie suma sygnału $U_1$ i dwukrotnosci $U_2$
+sygnał wynikowy bedzie przeciwną w fazie sumą sygnału $U_1$ i dwukrotności $U_2$
 
 \begin{figure}[H]
     \centering
@@ -113,8 +113,8 @@ sygnał wynikowy bedzie przeciwna w fazie suma sygnału $U_1$ i dwukrotnosci $U_
 \end{tabular}
 \end{table}
 
-Obecność plusa badz minusa zalezy faz sygnałów wchodzacych do sumatora.Jeśli śą zgodne w fazie 
-pojawia sie plus, jeśli przeciwne to minus.Wartosci obliczone pokrywaja sie z wartościami pomiarów 
+Obecność plusa bądź minusa zależy od faz sygnałów wchodzących do sumatora.Jeśli są zgodne w fazie 
+pojawia sie plus, jeśli przeciwne to minus. Wartości obliczone pokrywają się z wartościami pomiarów 
 
 
 \section{Wzmacniacz różnicowy}
@@ -144,7 +144,7 @@ R_A=1k\Omega
 R_B=2k\Omega
 \]
 
-wiec sygnał na wyjsciu wzmacniacza bedzie dwukrotnym 
+więc sygnał na wyjściu wzmacniacza bedzie dwukrotnym 
 wzmocnieniem róznicy sygnałów wejściowych 
 
 \begin{figure}[H]
@@ -171,40 +171,56 @@ wzmocnieniem róznicy sygnałów wejściowych
 \end{tabular}
 \end{table}
 
-Obecność plusa badź minusa we wzmocnieniu zależy od tego czy sygnały są 
-zgodne czy przeciwne w fazie. sygnały zgodne w fazie to minus, przeciewne plus.
-
-
-
+Obecność plusa bądź minusa we wzmocnieniu zależy od tego czy sygnały są 
+zgodne czy przeciwne w fazie. sygnały zgodne w fazie to minus, przeciwne plus.
 
 \section{Pomiar CMRR}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{img/roznicowy2.jpg}
-    \caption{Przebiegi $U_1$, $U_2$ i $U_3$ nastawy 2 wzmacniacz różnicowy}
-    \label{fig:placeholder}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{img/roznicowy2.jpg}
-    \caption{Przebiegi $U_1$, $U_2$ i $U_3$ nastawy 2 wzmacniacz różnicowy}
-    \label{fig:placeholder}
-\end{figure}
-
+Współczynnik CMRR wzmacniacza róznicowego określa zdolność wzmacniacza do tłumenia sygnałów wspólnych. Czyli zdolność wzmacniacza do tłumenia 
+sygnałów o takiej samej amplitudzie i fazie na obu wejściach wzmacniacza.
 \[
 CMRR=20log\frac{U_{wy1}}{U_{wy2}}
 \]
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/cmrr1pom.jpg}
+    \caption{Przebieg $U_{wy1}$ dla f=2kHz}
+    \label{fig:placeholder}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/cmrr2pomnasz.jpg}
+    \caption{Przebieg $U_{wy2}$ dla f=2kHz}
+    \label{fig:placeholder}
+\end{figure}
+
+
+
 \[
-U_{wy1}=
+U_{wy1}=3,15V
 \]
 \[
-U_{wy2}=
+U_{wy2}=0,00903V
 \]
 \[
-CMRR=20log\frac{}{}
+CMRR_{2kHz}=20log\frac{3,15}{0,00903}=50,852dB
 \]
+
+\section{Wnioski}
+ Przeprowadziliśmy pomiary układów i porównanaliśmy
+ je z przewidywaniami teoretycznymi. Sumator inwerujący zachowywał się zgodnie z teorią 
+,napięcie wyjściowe jest odwrotnością fazową ważonej sumy sygnałów wejściowych, wartości obliczone zgadzają się z pomiarami. Wzmacniacz różnicowy wykazał
+   oczekiwane wzmocnienie różnicy napięć i przy zrównanych sygnałach wejściowych daje niemal 
+   zerowe wyjście. Zmierzony współczynnik CMRR, świadczy o dobrym, lecz nie idealnym 
+   tłumieniu sygnałów wspólnych, ograniczenia wynikają z niedoskonałości elementów i wzmacniacza. Główne źródła
+    niepewności to tolerancje rezystorów, offset wejściowy, ograniczenia pasma, szumy oraz dokładność przyrządów 
+    pomiarowych; dla lepszej zgodności z teorią zaleca się stosowanie precyzyjnych rezystorów, kompensację offsetu 
+    oraz uwzględnienie parametrów rzeczywistych wzmacniaczy przy projektowaniu układów.
+
+
+
 
 
 
