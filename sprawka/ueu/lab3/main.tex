@@ -182,6 +182,34 @@ sygnałów o takiej samej amplitudzie i fazie na obu wejściach wzmacniacza.
 CMRR=20log\frac{U_{wy1}}{U_{wy2}}
 \]
 
+\subsection{200Hz}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/cmrr1200.jpg}
+    \caption{Przebieg $U_{wy1}$ dla f=200Hz}
+    \label{fig:placeholder}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/cmrr2200.jpg}
+    \caption{Przebieg $U_{wy2}$ dla f=200Hz}
+    \label{fig:placeholder}
+\end{figure}
+
+\[
+U_{wy1}=6,38V
+\]
+\[
+U_{wy2}=0,0352V
+\]
+\[
+CMRR_{2kHz}=20log\frac{6,38}{0,0352}=45,165dB
+\]
+
+\subsection{2kHz}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{img/cmrr1pom.jpg}
@@ -196,8 +224,6 @@ CMRR=20log\frac{U_{wy1}}{U_{wy2}}
     \label{fig:placeholder}
 \end{figure}
 
-
-
 \[
 U_{wy1}=3,15V
 \]
@@ -208,6 +234,9 @@ U_{wy2}=0,00903V
 CMRR_{2kHz}=20log\frac{3,15}{0,00903}=50,852dB
 \]
 
+Różnica pomiędzy wartościami tłumienia wynika z skończonego pasma przenoszenia wzmacniacza  
+
+
 \section{Wnioski}
  Przeprowadziliśmy pomiary układów i porównanaliśmy
  je z przewidywaniami teoretycznymi. Sumator inwerujący zachowywał się zgodnie z teorią 
@@ -215,9 +244,7 @@ CMRR_{2kHz}=20log\frac{3,15}{0,00903}=50,852dB
    oczekiwane wzmocnienie różnicy napięć i przy zrównanych sygnałach wejściowych daje niemal 
    zerowe wyjście. Zmierzony współczynnik CMRR, świadczy o dobrym, lecz nie idealnym 
    tłumieniu sygnałów wspólnych, ograniczenia wynikają z niedoskonałości elementów i wzmacniacza. Główne źródła
-    niepewności to tolerancje rezystorów, offset wejściowy, ograniczenia pasma, szumy oraz dokładność przyrządów 
-    pomiarowych; dla lepszej zgodności z teorią zaleca się stosowanie precyzyjnych rezystorów, kompensację offsetu 
-    oraz uwzględnienie parametrów rzeczywistych wzmacniaczy przy projektowaniu układów.
+    niepewności to tolerancje rezystorów i ograniczenia pasma.
 
 
 
