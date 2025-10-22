@@ -93,36 +93,80 @@ def zad1_1_4():
 
     return A,B,C,D,sys
 
+t=np.arange(0,20,0.01)
+u2=np.full(len(t),2)
+u3 = np.sin(t) * (t >= 0) - 0.5
 
-def zad1_3():
-    t=np.arange(0,20,0.01)
-    u2=np.full(len(t),2)
-    u3 = np.sin(t) * (t >= 0) - 0.5
-
+def sysinit():
     _,_,_,_,sys1=zad1_1_1()
     _,_,_,_,sys2=zad1_1_2()
     _,_,_,_,sys3=zad1_1_3()
     _,_,_,_,sys4=zad1_1_4()
 
+    return sys1,sys2,sys3,sys4
+
+
+
+def zad1_3_u():
+    sys1,sys2,sys3,sys4=sysinit()
+
     t1,y1=sp.step(sys1)
     t2,y2=sp.step(sys2)
+    t3,y3=sp.step(sys3)
+    t4,y4=sp.step(sys4)
 
-    t1p,y1p,_=sp.lsim(sys1,u2,T=t)
-    t2p,y2p,_=sp.lsim(sys2,u2,T=t)
+    plot_sets("odpowiedzi na skok jednostkowy o amplitudzie 1",
+              [t1,y1,"system 1"],
+              [t2,y2,"system 2"],
+              [t3,y3,"system 4"],
+              [t4,y4,"system 4"]
+              )
 
-    t1s,y1s,_=sp.lsim(sys1,u3,T=t)
+def zad1_3_2u():
+    sys1,sys2,sys3,sys4=sysinit()
 
-    plot_sets("systemy",[t1,y1,"system 1"],
-              [t2,y2,"system2"],
-              [t1p,y1p,"system 1 2u(t)"],
-              [t2p,y2p,"system 2 2u(t)"]
+    t1,y1,_=sp.lsim(sys1,u2,T=t)
+    t2,y2,_=sp.lsim(sys2,u2,T=t)
+    t3,y3,_=sp.lsim(sys3,u2,T=t)
+    t4,y4,_=sp.lsim(sys4,u2,T=t)
+
+    plot_sets("odpowiedzi na skok jednostkowy o amplitudzie 2",
+              [t1,y1,"system 1"],
+              [t2,y2,"system 2"],
+              [t3,y3,"system 4"],
+              [t4,y4,"system 4"]
               )
     
-    plot_sets("systems with sine input",[t1s,y1s,"system 1 with sine input"])
+def zad1_3_sin():
+    sys1,sys2,sys3,sys4=sysinit()
 
+    t1,y1,_=sp.lsim(sys1,u3,T=t)
+    t2,y2,_=sp.lsim(sys2,u3,T=t)
+    t3,y3,_=sp.lsim(sys3,u3,T=t)
+    t4,y4,_=sp.lsim(sys4,u3,T=t)
+
+    plot_sets("odpowiedzi na sin(t)-1/2",
+              [t1,y1,"system 1"],
+              [t2,y2,"system 2"],
+              [t3,y3,"system 4"],
+              [t4,y4,"system 4"]
+              )
+    
+
+def zad2_1_sys1():
+    sys1,sys2,sys3,sys4=sysinit()
+
+def zad2_1_sys2():
+    pass
+
+def zad2_1_sys3():
+    pass
+
+    
+    
 
 def main():
-    zad1_3()
+    zad1_3_sin()
 
 if __name__=="__main__":
     main()
