@@ -154,19 +154,83 @@ def zad1_3_sin():
     
 
 def zad2_1_sys1():
-    sys1,sys2,sys3,sys4=sysinit()
+    A,B,C,D,_=zad1_1_1() 
+
+    P=np.hstack([B,A@B]) #rank 2 wiec taki wzor
+
+    A_c = nplin.inv(P) @ A @ P
+    B_c = nplin.inv(P) @ B
+    C_c = C @ P
+    D_c = D
+
+    sys=sp.StateSpace(A_c,B_c,C_c,D_c)
+
+    printCtrl(A,B,C,D,A_c,B_c,C_c,D_c)
+
+    return sys
+
 
 def zad2_1_sys2():
-    pass
+    A,B,C,D,_=zad1_1_2()
+
+    P=np.hstack([B,A@B,A@A@B])
+
+    A_c = nplin.inv(P) @ A @ P
+    B_c = nplin.inv(P) @ B
+    C_c = C @ P
+    D_c = D
+
+    printCtrl(A,B,C,D,A_c,B_c,C_c,D_c)
+
+    return A_c,B_c,C_c,D_c
+
 
 def zad2_1_sys3():
-    pass
+    A,B,C,D,_=zad1_1_3()
 
+    P=np.hstack([B,A@B,A@A@B])
+
+    A_c = nplin.inv(P) @ A @ P
+    B_c = nplin.inv(P) @ B
+    C_c = C @ P
+    D_c = D
+
+    printCtrl(A,B,C,D,A_c,B_c,C_c,D_c)
+
+def printCtrl(a,b,c,d,a1,b1,c1,d1):
+    print(f"A regular: {a}\n A sterowalna: {a1}")
+    print(f"B regular: {b}\n B sterowalna: {b1}")
+    print(f"C regular: {c}\n C sterowalna: {c1}")
+    print(f"D regular: {d}\n D sterowalna: {d1}")
+
+def zad2_2():
+    _,_,_,_,sysOG=zad1_1_1()
+    sysSterowalne=zad2_1_sys1()
+
+    t1,y1=sp.step(sysOG)
+    t2,y2=sp.step(sysSterowalne)
+
+    plot_sets("porownanie odpowiedzi z reprezentacji sterowalnej i jakiejkolwiek innej",
+              [t1,y1,"og postac"],
+              [t2,y2,"postac sterowalna"]
+              )
     
-    
+    # zgodnie z zalozeniami postaci sie poktywaja kto by sie spodzieal to przeciez tylko inne liniowe reprezentacje tego samego pozdro
+
+def zad3_3():
+    A,B,C,D=zad2_1_sys2()
+
+    K=np.hstack([B,A@B,A@A@B])
+    #odpuszczam sobie to jest na 2 laby nie musze miec wszystkiego gotowego teraz 
+
+
+
+
+
+
 
 def main():
-    zad1_3_sin()
+    zad3_3()
 
 if __name__=="__main__":
     main()
