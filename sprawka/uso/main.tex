@@ -1,0 +1,116 @@
+\documentclass[11pt]{article}
+
+\pdfobjcompresslevel=3    % compress PDF objects
+\pdfcompresslevel=9       % compress streams more (0..9)
+\pdfminorversion=4
+
+
+\usepackage[utf8]{inputenc} % remove if using XeLaTeX or LuaLaTeX
+\usepackage[T1]{fontenc}
+
+% Layout & graphics
+\usepackage[a4paper, total={7.5in, 9in}]{geometry}
+\usepackage{graphicx}
+\usepackage{wrapfig}              % images
+\usepackage[dvipsnames,table]{xcolor} % single xcolor invocation (keeps table option)
+
+% Math & symbols
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gensymb}
+
+% Typography & layout helpers
+\usepackage{microtype}
+\usepackage{float}                 % [H] placement
+\usepackage{caption}
+\usepackage{subcaption}            % modern subfigure support (do NOT load subfig)
+\usepackage{multirow}
+\usepackage{titlesec}
+
+\usepackage{lmodern}
+\usepackage{microtype}
+
+\definecolor{xppblue}{RGB}{37, 150, 190}
+
+\title{Sprawozdanie z laboratorium \par Układy sterowania optymalnego}
+\author{Jan Andrzejewski 159512}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\section{Lab 3-4}
+\subsection{Układ RC}
+
+Pod rozważania brany jest układ RC przedstawiony an Figure 1. Przyjęto że:
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/ukladrc.png}
+    \caption{Układ RC}
+\end{figure}
+\[
+R_1=1\Omega \; C_1=1F
+\]
+\[
+ R_2=1\Omega \;C_2=2F
+\]
+\[
+R_3=1\Omega \: C_3=3F
+\]
+
+
+równania stanu:
+\[
+\dot{x}=
+\begin{bmatrix}
+ -\dfrac{1}{R_1 C_1} & 0 & 0 \\
+ 0 & -\dfrac{1}{R_2 C_2} & 0 \\
+ 0 & 0 & -\dfrac{1}{R_3 C_3}
+\end{bmatrix}x + 
+\begin{bmatrix}
+    -\dfrac{1}{R_1 C_1} \\
+    -\dfrac{1}{R_2 C_2}\\
+    -\dfrac{1}{R_3 C_3} \\
+\end{bmatrix}u
+\]
+
+\subsection{Teoretyczne badanie sterowalności}
+\[
+K=\begin{bmatrix}
+    A & AB & A^2 B\\
+\end{bmatrix}=\begin{bmatrix}
+    1 & -1 & 1 \\
+ 0.5 & -0.25 & 0.125 \\
+ \frac{1}{3} & -0.(1) & 0.(037)
+\end{bmatrix}
+\]
+
+\[
+rank(K)=3 
+\]
+\[
+n=3
+\]
+
+System jest sterowalny
+
+
+\subsection{Doswiadczalne badanie sterowalności}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/wykres.png}
+    \caption{Układ RC}
+\end{figure}
+
+\subsection{Postać sterowalna}
+
+
+
+
+\end{document}
