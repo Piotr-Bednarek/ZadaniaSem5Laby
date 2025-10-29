@@ -29,6 +29,7 @@
 
 \usepackage{lmodern}
 \usepackage{microtype}
+\usepackage{listings}
 
 \definecolor{xppblue}{RGB}{37, 150, 190}
 
@@ -196,6 +197,34 @@ Obie reprezentacje opisuja system w sposob jednakowy sa przeciez tylko kombinacj
 
 
 
+\begin{lstlisting}
 
+    A=oryginalne A ukladu RC
+    B=oryginalne B ukladu RC
+
+    desired=[-1,-2,-5] #oczekiwane bieguny
+
+    res = place_poles(A,B,desired)
+    K=res.gain_matrix
+
+    print("Using scipy.signal.place_poles:")
+    print(f"K = {K}")
+    print(f"Achieved poles: {res.computed_poles}")
+\end{lstlisting}
+
+\[
+K=\begin{bmatrix}
+    1 & -1 & 1 \\
+ 0.5 & -0.25 & 0.125 \\
+ 0.333 & -0.111 & 0.037
+\end{bmatrix}
+\]
+
+macierz wzmocnien spelniajaca dane bieguny
+
+\[
+K = [[ 5.17069381e-14 -8.10000000e+01  1.40000000e+02]]
+\]
+nie wiem jeszcze co to jest 
 
 \end{document}
