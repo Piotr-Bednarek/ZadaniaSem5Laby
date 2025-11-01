@@ -7,6 +7,7 @@
 
 \usepackage[utf8]{inputenc} % remove if using XeLaTeX or LuaLaTeX
 \usepackage[T1]{fontenc}
+\usepackage{babel}[Polish]
 
 % Layout & graphics
 \usepackage[a4paper, total={7.5in, 9in}]{geometry}
@@ -33,7 +34,7 @@
 
 \definecolor{xppblue}{RGB}{37, 150, 190}
 
-\title{Sprawozdanie z laboratorium \par Układy sterowania optymalnego}
+\title{Sprawozdanie 1 z laboratorium \par Układy sterowania optymalnego}
 \author{Jan Andrzejewski 159512}
 \date{}
 
@@ -55,13 +56,13 @@ Pod rozważania brany jest układ RC przedstawiony an Figure 1. Przyjęto że:
     \caption{Układ RC}
 \end{figure}
 \[
-R_1=1\Omega \; C_1=1F
+R_1=1\Omega \qquad C_1=1F
 \]
 \[
- R_2=1\Omega \;C_2=2F
+ R_2=1\Omega \qquad C_2=2F
 \]
 \[
-R_3=1\Omega \: C_3=3F
+R_3=1\Omega \qquad C_3=3F
 \]
 
 
@@ -87,7 +88,7 @@ K=\begin{bmatrix}
 \end{bmatrix}=\begin{bmatrix}
     1 & -1 & 1 \\
  0.5 & -0.25 & 0.125 \\
- \frac{1}{3} & -0.(1) & 0.(037)
+ 0.(3) & -0.(1) & 0.(037)
 \end{bmatrix}
 \]
 
@@ -98,7 +99,7 @@ rank(K)=3
 n=3
 \]
 
-System jest sterowalny
+Rząd macierzy Kalmana jest równy 3, zgadza sie z rozmiarem macierzy A co swiadczy o tym że system jest sterowalny.
 
 \subsection{Postać sterowalna}
 
@@ -126,7 +127,7 @@ Postać sterowalna układu RC wyglada nastepujaco:
 \dot{x}=\begin{bmatrix}
     0 & 1 & 0 \\
  0 & 0 & 1 \\
- \frac{1}{6} & 1 & \frac{11}{6}
+ -\frac{1}{6} & -1 & -\frac{11}{6}
 \end{bmatrix}x+\begin{bmatrix}
     0\\
     0\\
@@ -137,17 +138,21 @@ Postać sterowalna układu RC wyglada nastepujaco:
 
 \subsection{Porównanie obiektu opisanego postacią normalna regulatorowa i sterowalną}
 
+\subsubsection{Wyjścia}
+
+Dla danego układu RC zaimplementowano postać sterowalna i zbadano zgodność wyjść z orginalna postacią 
+
 \begin{figure}[H]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1\linewidth]{img/jednostkowy.png}
-  \caption{kanoniczna}
+  \includegraphics[width=1\linewidth]{img/wyjsciajednostkowy.png}
+  \caption{og}
   \label{fig:sub1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1\linewidth]{img/jednostkowySTER.png}
+  \includegraphics[width=1\linewidth]{img/wyjsciajednostkowysterowalna.png}
   \caption{sterowalna}
   \label{fig:sub2}
 \end{subfigure}
@@ -155,21 +160,25 @@ Postać sterowalna układu RC wyglada nastepujaco:
 \label{fig:test}
 \end{figure}
 
+Zgodnie z założeniami zmiana reprezentacji nie zmieniła przebiegu wyjść, dowodzi to temu że, każdy system liniowy można zapisac w nieskończonej ilosci kombinacji zapisu macierzowego równań stanu.
+
+Pomimo że, zmiana zapisu nie wpłyneła na przebiegi wyjść zmieniły sie przebiegi zmiennych stanu, wniosek: zmiana macierzy opisujacych system nie ma wpływu na charakter wyjścia zmienia natomiast sposób w jaki osiągamy wyjscie czyli kombinajce zmiennych stanu składających sie na wyjście 
+
 \begin{figure}[H]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1\linewidth]{img/jednostkowy2.png}
-  \caption{A subfigure}
+  \includegraphics[width=1\linewidth]{img/zmiennestanuog.png}
+  \caption{og zmienne stanu}
   \label{fig:sub1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1\linewidth]{img/jednostkowy2Ster.png}
-  \caption{A subfigure}
+  \includegraphics[width=1\linewidth]{img/zmiennestanuster.png}
+  \caption{zmienne stanu reprezentacji sterowalnej}
   \label{fig:sub2}
 \end{subfigure}
-\caption{Wykresy przebiegów zmiennych stanu dla pobudzenia skokiem jednostkowym o amplitudzie 2}
+\caption{Wykresy przebiegów wyjść dla pobudzenia sinusem}
 \label{fig:test}
 \end{figure}
 
@@ -177,54 +186,46 @@ Postać sterowalna układu RC wyglada nastepujaco:
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1\linewidth]{img/sin.png}
-  \caption{A subfigure}
+  \includegraphics[width=1\linewidth]{img/zmiennestanuogsin.png}
+  \caption{og zmienne stanu}
   \label{fig:sub1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1\linewidth]{img/sinSter.png}
-  \caption{A subfigure}
+  \includegraphics[width=1\linewidth]{img/zmiennestanustersin.png}
+  \caption{zmienne stanu reprezentacji sterowalnej}
   \label{fig:sub2}
 \end{subfigure}
-\caption{Wykresy przebiegów zmiennych stanu dla pobudzenia sinusem}
+\caption{Wykresy przebiegów wyjść dla pobudzenia sinusem}
 \label{fig:test}
 \end{figure}
-
-Obie reprezentacje opisuja system w sposob jednakowy sa przeciez tylko kombinacjami liniowymi 
 
 \subsection{Lokowanie biegunów}
 
-
-
-\begin{lstlisting}
-
-    A=oryginalne A ukladu RC
-    B=oryginalne B ukladu RC
-
-    desired=[-1,-2,-5] #oczekiwane bieguny
-
-    res = place_poles(A,B,desired)
-    K=res.gain_matrix
-
-    print("Using scipy.signal.place_poles:")
-    print(f"K = {K}")
-    print(f"Achieved poles: {res.computed_poles}")
-\end{lstlisting}
+Za cel obrano ulokowanie biegunów w lewej półpłaszczyznie co oznacza że układ ma byc stabilny. Nalży spodziewac sie ze układ pozbawiony wejscia i wytracony z równowangi powróci do stanu równowagi 
 
 \[
-K=\begin{bmatrix}
-    1 & -1 & 1 \\
- 0.5 & -0.25 & 0.125 \\
- 0.333 & -0.111 & 0.037
-\end{bmatrix}
+s_1=-1 \qquad s_2=-2 \qquad s_3=-5
 \]
 
-macierz wzmocnien spelniajaca dane bieguny
+Macierz wzmocnien wyznaczona dla takich biegunów:
 
 \[
-K = [[ 5.17069381e-14 -8.10000000e+01  1.40000000e+02]]
+K = \begin{bmatrix} 9.83333333 & 16 & 6.16666667 \\ \end{bmatrix}
 \]
-nie wiem jeszcze co to jest 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{img/zamkniety.png}
+    \caption{Układ RC}
+\end{figure}
+
+Układ wytrącono z równowagi w postaci warunków początkowych wynaszacych $\dot{x} = \begin{bmatrix} 1 & 0.5 & -0.5 \\ \end{bmatrix}$
+
+
+
+
+
+
 
 \end{document}
