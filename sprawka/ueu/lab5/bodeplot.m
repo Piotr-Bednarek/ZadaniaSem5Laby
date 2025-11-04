@@ -21,9 +21,10 @@ R2g=10e3;
 %%
 
 % Load all three datasets
-data1 = readmatrix('data/1.csv', 'NumHeaderLines', 2);
-data5 = readmatrix('data/5.csv', 'NumHeaderLines', 2);
-data10 = readmatrix('data/10.csv', 'NumHeaderLines', 2);
+%data1 = readmatrix('data/1.csv', 'NumHeaderLines', 2);
+%data5 = readmatrix('data/5.csv', 'NumHeaderLines', 2);
+%data10 = readmatrix('data/10.csv', 'NumHeaderLines', 2);
+
 
 % Create figure
 figure;
