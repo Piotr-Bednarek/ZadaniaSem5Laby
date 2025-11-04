@@ -193,19 +193,47 @@ Q=0,5\sqrt{\frac{R_1}{R_2}}=0,707
     \caption{aktywny pasmowoprzepustowy filtr RC}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/scheamtpasmoworzecz.png}
+    \caption{rzeczywisty schemat aktywny pasmowoprzepustowy filtr RC}
+\end{figure}
+
 \[
-C_1=C_2=C=22nF \qquad R_1=20k\Omega \qquad R_2=10k\Omega
+C_1=C_2=C=22nF \qquad R_1=20k\Omega \qquad R_3=100k\Omega 
+\]
+
+Porównujac schemat rzeczuwistych połączeń widzimy że naszym rezystorem $R_2$ są połączone $R_2$,$R_4$ i potencjometr
+\[
+R_{2R}=\frac{(R_4+P)R_2}{R_4+P+R_2}
+\]
+\[
+R_2=1k\Omega \qquad R_4=2k\Omega
+\]
+\[
+R_{2\; 1k\Omega}=500\Omega \qquad R_{2\; 5k\Omega}= 875\Omega \qquad R_{2\; 10k\Omega}=923\Omega
 \]
 
 \[
-\omega_0=\frac{1}{C\sqrt{R_1R_2}}=3214
+\omega_0=\frac{1}{C\sqrt{R_3\frac{R_1R_{2R}}{R_1+R_{2R}}}}=4676
 \]
 \[
-f_0=\frac{\omega_0}{2\pi}=511Hz
+f_0=\frac{\omega_0}{2\pi}=741Hz
 \]
 \[
-Q=0,5\sqrt{\frac{R_1}{R_2}}=0,707
+\Delta \omega=\frac{2}{CR_3}=909 \qquad \Delta f=\frac{\Delta \omega}{2\pi}=145Hz
 \]
+\[
+f_d=f_0-\Delta f =595Hz \qquad f_g=f_0+\Delta f=886Hz
+\]
+\[
+Q=\frac{\omega_0}{\Delta \omega}=5,123
+\]
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{img/pasmowocharak.png}
+\end{figure}
 
 
 \section{Wnioski}
