@@ -1,8 +1,8 @@
 s=tf('s');
 
 R=20e3;
-C1=22e-6;
-C2=44e-6;
+C1=22e-9;
+C2=44e-9;
 
 a=1/(R^2*C1*C2);
 
@@ -31,10 +31,10 @@ figure;
 
 % Magnitude comparison
 subplot(2,1,1)
-semilogx(data1(:,1), data1(:,2), 'b-', 'LineWidth', 2, 'DisplayName', 'Rp= 1kOhm')
+semilogx(data1(:,1), data1(:,2), 'b-', 'LineWidth', 2)
 hold on
-semilogx(data5(:,1), data5(:,2), 'g-', 'LineWidth', 2, 'DisplayName', 'Rp= 5kOhm')
-semilogx(data10(:,1), data10(:,2), 'r-', 'LineWidth', 2, 'DisplayName', 'Rp= 10kOhm')
+%semilogx(data5(:,1), data5(:,2), 'g-', 'LineWidth', 2, 'DisplayName', 'Rp= 5kOhm')
+%semilogx(data10(:,1), data10(:,2), 'r-', 'LineWidth', 2, 'DisplayName', 'Rp= 10kOhm')
 grid on
 xlabel('Frequency (Hz)')
 ylabel('Gain (dB)')
@@ -44,10 +44,10 @@ hold off
 
 % Phase comparison
 subplot(2,1,2)
-semilogx(data1(:,1), data1(:,3), 'b-', 'LineWidth', 2, 'DisplayName', 'Rp= 1kOhm')
+semilogx(data1(:,1), data1(:,3), 'b-', 'LineWidth', 2)
 hold on
-semilogx(data5(:,1), data5(:,3), 'g-', 'LineWidth', 2, 'DisplayName', 'Rp= 5kOhm')
-semilogx(data10(:,1), data10(:,3), 'r-', 'LineWidth', 2, 'DisplayName', 'Rp= 10kOhm')
+%semilogx(data5(:,1), data5(:,3), 'g-', 'LineWidth', 2, 'DisplayName', 'Rp= 5kOhm')
+%semilogx(data10(:,1), data10(:,3), 'r-', 'LineWidth', 2, 'DisplayName', 'Rp= 10kOhm')
 grid on
 xlabel('Frequency (Hz)')
 ylabel('Phase (degrees)')

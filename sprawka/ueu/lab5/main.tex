@@ -78,9 +78,9 @@ f_0=\frac{\omega_0}{2\pi}=256Hz
 Q=0,5\sqrt{\frac{C_2}{C_1}}=0,707
 \]
 
-\newpage
+Filtr dolnoprzepustowy przepuszcza sygnały o częstotliwościach niższych od częstotliwości granicznej $f_0$, jednocześnie tłumiąc składowe o częstotliwościach wyższych. W badanym układzie wykorzystano strukturę Sallen-Key, która zapewnia dobrą stabilność przy stosunkowo prostej budowie. Kondensatory $C_1$ i $C_2$ wraz z rezystorami $R_1$ i $R_2$ tworzą sieć kształtującą charakterystykę częstotliwościową, podczas gdy wzmacniacz operacyjny pracuje w konfiguracji wtórnika napięciowego, zapewniając izolację wyjścia od obciążenia.
 
-Przeprowadzilismy pomiary w celu wyznaczenia charakterystyki amplitudowo fazowej filtru dolnoprzepustowego:
+Przeprowadzilismy pomiary w celu wyznaczenia charakterystyki amplitudowo fazowej filtru dolnoprzepustowego.
 
 \begin{table}[!ht]
     \centering
@@ -102,7 +102,12 @@ Przeprowadzilismy pomiary w celu wyznaczenia charakterystyki amplitudowo fazowej
     \caption{Dane uzyskane przy użyciu filter.vi}
 \end{table}
 
-Widać że, występuje drobna rozbieżność pomiedzy obliczona teoretycznie częstotliwościa graniczna a zmierzoną eksperymentalnie, rozbieżność najprawodpodobnie wynika z tolerancji rezystorów
+Widać że, występuje drobna rozbieżność pomiedzy obliczona teoretycznie częstotliwościa graniczna a zmierzoną eksperymentalnie, różnica wynośi około 2Hz, rozbieżność najprawodpodobniej wynika z tolerancji rezystorów, kondensatorów i niedoskonałości samego wzmacniacza.
+
+\subsection{Analiza wyników dla filtru dolnoprzepustowego}
+Analiza danych pomiarowych wykazuje charakterystyczne cechy filtru Butterwortha drugiego rzędu. W paśmie przepustowym (do około 150 Hz) tłumienie nie przekracza 0,5 dB, co potwierdza maksymalną płaskość charakterystyki. Stromość tłumienia po przekroczeniu częstotliwości granicznej wynosi w przybliżeniu 40 dB/dekadę, co odpowiada teoretycznej wartości dla filtru drugiego rzędu (20 dB/dekadę na każdy biegun). 
+
+Przesunięcie fazowe wynosi -90° dla częstotliwości granicznej, co jest zgodne z teorią dla filtru Butterwortha drugiego rzędu. Przy niskich częstotliwościach faza dąży do 0°, natomiast dla częstotliwości znacznie przekraczających $f_0$ stabilizuje się na poziomie -180°. Taka charakterystyka fazowa jest typowa dla układów drugiego rzędu i wskazuje na dwukrotne całkowanie sygnału w zakresie wysokich częstotliwości.
 
 \begin{figure}[H]
     \centering
@@ -118,7 +123,7 @@ Widać że, występuje drobna rozbieżność pomiedzy obliczona teoretycznie cz�
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\linewidth]{img/bodedolnoteoria.png}
+    \includegraphics[width=0.7\linewidth]{img/dolnobode.png}
     \caption{Charakterystyka fazowa wyznaczona na podstawie danych pomiarowych}
 \end{figure}
 
@@ -146,6 +151,8 @@ f_0=\frac{\omega_0}{2\pi}=511Hz
 Q=0,5\sqrt{\frac{R_1}{R_2}}=0,707
 \]
 
+Filtr górnoprzepustowy stanowi funkcjonalne odwrócenie filtru dolnoprzepustowego, przepuszcza sygnały o częstotliwościach wyższych od częstotliwości granicznej, tłumiąc składowe o niskich czestotliwościach. W badanym układzie kondensatory i rezystory zamieniają swoje role w porównaniu z filtrem dolnoprzepustowym: kondensatory znajdują się w torze sygnałowym, natomiast rezystory w pętlach sprzężenia zwrotnego. Taka konfiguracja zapewnia rosnące impedancje dla malejących częstotliwości, co skutkuje tłumieniem składowych o nieskiej czestotliwości.
+
 \begin{table}[!ht]
     \centering
     \begin{tabular}{|l|l|l|l|}
@@ -166,6 +173,11 @@ Q=0,5\sqrt{\frac{R_1}{R_2}}=0,707
     \end{tabular}
     \caption{Dane uzyskane przy użyciu filter.vi}
 \end{table}
+
+\subsection{Analiza wyników dla filtru górnoprzepustowego}
+Charakterystyka amplitudowa filtru górnoprzepustowego wykazuje oczekiwaną stromość -40 dB/dekadę w zakresie częstotliwości poniżej $f_0$. Dla częstotliwości 100 Hz, będącej około jedną piątą częstotliwości granicznej, tłumienie wynosi -28,8 dB, co dobrze koreluje z teoretycznymi przewidywaniami. W paśmie przepustowym (powyżej 1 kHz) charakterystyka stabilizuje się na poziomie bliskim 0 dB z tłumieniem nieprzekraczającym -0,4 dB.
+
+Charakterystyka fazowa filtru górnoprzepustowego jest lustrzanym odbiciem charakterystyki filtru dolnoprzepustowego jak chodzi o kształt. Dla niskich częstotliwości przesunięcie fazowe zbliża się do +180°, przy częstotliwości granicznej wynosi około +90°, a dla wysokich częstotliwości dąży asymptotycznie do 0°. Zmierzona wartość fazy około 92° dla częstotliwości 512 Hz potwierdza prawidłowość doboru elementów i zgodność z teorią.
 
 \begin{figure}[H]
     \centering
@@ -193,29 +205,13 @@ Q=0,5\sqrt{\frac{R_1}{R_2}}=0,707
     \caption{aktywny pasmowoprzepustowy filtr RC}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{img/scheamtpasmoworzecz.png}
-    \caption{rzeczywisty schemat aktywny pasmowoprzepustowy filtr RC}
-\end{figure}
 
 \[
-C_1=C_2=C=22nF \qquad R_1=20k\Omega \qquad R_3=100k\Omega 
-\]
-
-Porównujac schemat rzeczuwistych połączeń widzimy że naszym rezystorem $R_2$ są połączone $R_2$,$R_4$ i potencjometr
-\[
-R_{2R}=\frac{(R_4+P)R_2}{R_4+P+R_2}
-\]
-\[
-R_2=1k\Omega \qquad R_4=2k\Omega
-\]
-\[
-R_{2\; 1k\Omega}=500\Omega \qquad R_{2\; 5k\Omega}= 875\Omega \qquad R_{2\; 10k\Omega}=923\Omega
+C_1=C_2=C=22nF \qquad R_1=20k\Omega \qquad R_3=100k\Omega \qquad R_2=1k\Omega \qquad R_4=2k\Omega
 \]
 
 \[
-\omega_0=\frac{1}{C\sqrt{R_3\frac{R_1R_{2R}}{R_1+R_{2R}}}}=4676
+\omega_{0}=\frac{1}{C\sqrt{R_3\frac{R_1R_{2}}{R_1+R_{2}}}}=4653
 \]
 \[
 f_0=\frac{\omega_0}{2\pi}=741Hz
@@ -230,13 +226,75 @@ f_d=f_0-\Delta f =595Hz \qquad f_g=f_0+\Delta f=886Hz
 Q=\frac{\omega_0}{\Delta \omega}=5,123
 \]
 
+\subsection{Charakterystyka filtru pasmowoprzepustowego}
+Filtr pasmowoprzepustowy łączy właściwości filtrów dolno- i górnoprzepustowego, przepuszczając jedynie sygnały w określonym zakresie częstotliwości. Badany układ wykorzystuje dodatnie i ujemne sprzężenie zwrotne do uzyskania charakterystyki rezonansowej. Potencjometr P umożliwia regulację szerokości pasma przepustowego przez zmianę wartości zastępczej rezystora $R_2$, co bezpośrednio wpływa na dobroć Q filtru.
+
+Wysoka wartość dobroci Q = 5,123 wskazuje na wąskie pasmo przepustowe i selektywną charakterystykę. Częstotliwości graniczne $f_d = 595$ Hz i $f_g = 886$ Hz definiują zakres, w którym tłumienie nie przekracza -3 dB.
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{img/pasmowochara.png}
+    \includegraphics[width=0.6\linewidth]{img/image.png}
+\end{figure}
+
+\section{Wpływ dobroci na przebieg charakterystyki}
+Dobroć Q jest kluczowym parametrem określającym kształt charakterystyki filtru. Dla filtrów drugiego rzędu wartości Q można podzielić na trzy zakresy:
+
+\textbf{Q < 0,5:} Układ jest przetłumiony (overdamped), charakterystyka jest bardzo łagodna, brak wyraźnej częstotliwości granicznej. Tłumienie narasta bardzo powoli, co skutkuje słabą selektywnością.
+
+\textbf{Q = 0,707:} Charakterystyka Butterwortha - optymalny kompromis. Maksymalna płaskość w paśmie przepustowym przy zachowaniu stromości -40 dB/dekadę. Brak przesterowania i rezonansu.
+
+\textbf{Q > 0,707:} Pojawia się pik rezonansowy przed częstotliwością graniczną. Im wyższe Q, tym wyższy pik i węższa charakterystyka. Dla Q > 5 układ może stać się niestabilny i generować oscylacje.
+
+W praktycznych zastosowaniach wybór wartości Q zależy od wymagań: w filtrach audio preferuje się Q = 0,707 dla minimalizacji zniekształceń, podczas gdy w selektywnych filtrach pomiarowych stosuje się wysokie wartości Q dla lepszej separacji sygnałów.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/dobroc.png}
+    \caption{Stromo charakterystyk dla różnych dobroci}
 \end{figure}
 
 
+\subsection{Parametry filtru dla róznych charakterystyk}
+
+Przeprowadzimy modyfikacje charakterystyki filtru dolnoprzepustowego, dobór kondensatorów przeprowadzimy zgodnie z wzorami:
+\[
+C_1=\frac{a_1}{2\pi f_0 R}
+\]
+\[
+C_1=\frac{b_1}{2\pi f_0 R}
+\]
+gdzie $a_1$ i $b_1$ są stałymi z tabel.
+
+\subsection*{Parametry poczatkowe}
+\[
+R_1=R_2=20k\Omega \qquad f_0=256Hz 
+\]
+
+\subsection*{Charakterystyka Bessela}
+\[
+C_1=\frac{1,3617}{2\pi \cdot 256 \cdot 20000}=42,3nF
+\]
+\[
+C_2=\frac{0,6180}{2\pi \cdot 256 \cdot 20000}=19,2nF
+\]
+
+Filtry Bessela charakteryzują się liniowym przesunięciem fazowym w paśmie przepustowym. Są szczególnie przydatne w aplikacjach, gdzie zachowanie kształtu impulsu jest krytyczne, takich jak transmisja danych czy przetwarzanie sygnałów impulsowych.
+
+\subsection*{Charakterystyka Czebyszewa}
+\[
+C_1=\frac{1,4256}{2\pi \cdot 256 \cdot 20000}=44,3nF
+\]
+\[
+C_1=\frac{0,6265}{2\pi \cdot 256 \cdot 20000}=19,4nF
+\]
+
+Filtry Czebyszewa oferują bardziej stromą charakterystykę niż filtry Butterwortha, kosztem wprowadzenia falowania w paśmie przepustowym. Typ Czebyszewa I ma falowanie w paśmie przepustowym, podczas gdy typ II ma falowanie w paśmie zaporowym. Takie filtry są stosowane tam, gdzie wymagana jest ostra separacja częstotliwości przy akceptowalnym poziomie zniekształceń.
+
 \section{Wnioski}
+
+Przebadane aktywne filtry  dolnoprzepustowy, górnoprzepustowy oraz pasmowoprzepustowy działają zgodnie z założeniami teoretycznymi. Uzyskane charakterystyki pomiarowe potwierdzają cechy filtrów Butterwortha, które wyróżniają się maksymalnie płaskim pasmem przepustowym. Niewielkie różnice między wynikami teoretycznymi a pomiarowymi wynikają z czynników praktycznych, takich jak tolerancje elementów, niedoskonałości wzmacniaczy operacyjnych oraz ograniczenia aparatury pomiarowej.
+
+Wykorzystanie struktury Sallen-Key we wszystkich badanych układach zapewniło dobrą stabilność i prostotę implementacji. Wzmacniacze operacyjne zastosowane w układach wykazały zadowalające parametry w zakresie badanych częstotliwości, nie wprowadzając znaczących zniekształceń nieliniowych ani ograniczeń pasma.
 
 
 \end{document}
