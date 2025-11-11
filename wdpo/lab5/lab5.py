@@ -1,7 +1,9 @@
 import numpy as np
 import cv2 as cv 
 
-img = cv.imread("lab5/Albert.jpg",cv.IMREAD_GRAYSCALE)
+img = cv.imread("lab5/beach.jpg",cv.IMREAD_GRAYSCALE)
+
+cv.imwrite('beachgs.bmp',img)
 
 def empty_callback(value):
     pass
