@@ -225,9 +225,18 @@ Układ wytrącono z równowagi w postaci warunków początkowych wynaszacych $\d
 
 \section{Lab 5}
 
-Na zajeciach numer 5 przedstawiono metody optymalizacji matematycznej
-
-
+Na zajeciach numer 5 przedstawiono metody optymalizacji matematycznej, rozpatrywano dany problem:
+\[
+J=\int_{0}^{1}24x(t)t+2\dot{x}(t)^2-4tdt \rightarrow min
+\]
+z ograniczeniami 
+\[
+x(0)=1 \qquad x(1)=3
+\]
+pomijajac przekształcenia ostatecznie otrzymano analitycznie wyznaczoną optymalną trajektorie:
+\[
+x^*=t^3+t+1
+\]
 
 \begin{lstlisting}
 m2=GEKKO()
@@ -275,9 +284,10 @@ x^*=t^3+t+1
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.5\linewidth]{img/trajektorielab5.png}
+  \includegraphics[width=0.8\linewidth]{img/trajektorielab5.png}
 \end{figure}
 
+Widać że, przebiegi trajektori osiagniętej metodami numerycznymi i trajektori wyprowadzonej analitycznie pokrywaja sie co dowodzi skuteczności i wiarygodności rezultatów osiganych poprzez bibliotekę GEKKO
 
 
 
