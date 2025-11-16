@@ -1,0 +1,84 @@
+\documentclass[11pt]{article}
+
+\pdfobjcompresslevel=3    % compress PDF objects
+\pdfcompresslevel=9       % compress streams more (0..9)
+\pdfminorversion=4
+
+
+\usepackage[utf8]{inputenc} % remove if using XeLaTeX or LuaLaTeX
+\usepackage[T1]{fontenc}
+
+% Layout & graphics
+\usepackage[a4paper, total={7.5in, 9in}]{geometry}
+\usepackage{graphicx}              % images
+\usepackage[dvipsnames,table]{xcolor} % single xcolor invocation (keeps table option)
+
+% Math & symbols
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gensymb}
+
+% Typography & layout helpers
+\usepackage{microtype}
+\usepackage{float}                 % [H] placement
+\usepackage{caption}
+\usepackage{subcaption}            % modern subfigure support (do NOT load subfig)
+\usepackage{multirow}
+\usepackage{titlesec}
+
+\usepackage{lmodern}
+\usepackage{microtype}
+
+\definecolor{xppblue}{RGB}{37, 150, 190}
+
+\begin{document}
+
+\begin{table}[h]
+\centering
+\scalebox{1.5}{
+\begin{tabular}{|ccll|cl|}
+\hline
+\multicolumn{4}{|c|}{SPRAWOZDANIE Z LABORATORIUM}                                                                                                                            & \multicolumn{2}{c|}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}rok akademicki:\\ 2025/26\end{tabular}}} \\ \cline{1-4}
+\multicolumn{4}{|c|}{\textbf{Układy elektroniki użytkowej}}                                                                                                                          & \multicolumn{2}{c|}{}                                                                                   \\ \hline
+\multicolumn{4}{|c|}{\multirow{2}{*}{\textit{Źródła prądowe}}}                                                                                           & \multicolumn{2}{c|}{\multirow{2}{*}{czwartek 8:00}}                                                \\
+\multicolumn{4}{|c|}{}                                                                                                                                                       & \multicolumn{2}{c|}{}                                                                                   \\ \hline
+\multicolumn{1}{|c|}{WARiE, AiR, sem 5}          & \multicolumn{3}{c|}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}} \underline{1. Jan Andrzejewski}\\2. Mateusz Banaszak\\\end{tabular}}} & \multicolumn{2}{l|}{\multirow{2}{*}{Punkty:}}                                                           \\ \cline{1-1}
+\multicolumn{1}{|c|}{13.11.2025}                   & \multicolumn{3}{c|}{}                                                                                                   & \multicolumn{2}{l|}{}                                                                                   \\ \hline
+\end{tabular}
+}
+\end{table}
+\vspace{2\baselineskip}
+
+\section{Źródło prądowe na bazie dwóch tranzystorów}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{img/schemattran.png}
+\end{figure}
+
+Elementy wykorzystane do budowy układu:
+\begin{enumerate}
+    \item $R_1=100k\Omega$
+    \item $Q_1=Q_2=$BC237
+\end{enumerate}
+
+$R_2$ musi być dobrane tak żeby amperomierz wskazywal 0.6mA. Wiemy że na rezystorze $R_2$ spadek musi wynosić 0.6V więc musi on mieć rezystancje $1k\Omega$
+
+W rzeczywistosci dla rezystora $R_2=1k\Omega$ amperomierz wskazywał 0.52mA. Taka rozbieżność może wynikac z tolerancji rezystorów i zurzycia tranzystorów. Zmniejszając $R_2$ do $900\Omega$ 
+
+\subsection{Odpowiedzi na pytania}
+\subsubsection*{Jakiego typu są tranzystory Q1 i Q2?}
+Tranzystory BC237 są transzystorami NPN
+\subsubsection*{W jaki sposób dobrać wartość elementów, by 'zaprogramować' prąd? }
+Wiadomo że: $I\propto\frac{1}{R}$ więc zwiekszając wartość rezystora możemy wpłynąć na wartość prądu w całej tej gałęzi.
+\subsubsection*{Czy wszystkie trzy diody(czerwona/zielona/niebieska) włączone w miejscu amperomierza się zapalą?}
+Tak, dopóki napiecie VDD bedzie wieksze od spadku napiecia na diodzie(czerwona $\approx 1.4V$),spadku na tranzystorze(0.2V) i spadku na rezystorze, w tym przypadku 0.6. Wiec VDD>2.2V
+\subsubsection*{Czy wszystkie trzy diody się zapalą, jeśli podłączymy je równolegle?}
+Nie, prąd popłynie tylko przez diode z najniższym znamionowym spadkiem napięcia.
+\subsubsection*{Czy zmiana połączenia diod z szeregowego na równoległe w podanej sytuacji wiąże się z ryzykiem uszkodzenia elementów}|
+Nie, jedyne o czym trzeba pamiętać to odpowiednio wysokie napiecie zasilania.
+
+
+
+
+\end{document}
