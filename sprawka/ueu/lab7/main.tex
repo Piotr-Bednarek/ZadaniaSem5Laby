@@ -75,8 +75,54 @@ Wiadomo że: $I\propto\frac{1}{R}$ więc zwiekszając wartość rezystora możem
 Tak, dopóki napiecie VDD bedzie wieksze od spadku napiecia na diodzie(czerwona $\approx 1.4V$),spadku na tranzystorze(0.2V) i spadku na rezystorze, w tym przypadku 0.6. Wiec VDD>2.2V
 \subsubsection*{Czy wszystkie trzy diody się zapalą, jeśli podłączymy je równolegle?}
 Nie, prąd popłynie tylko przez diode z najniższym znamionowym spadkiem napięcia.
-\subsubsection*{Czy zmiana połączenia diod z szeregowego na równoległe w podanej sytuacji wiąże się z ryzykiem uszkodzenia elementów}|
+\subsubsection*{Czy zmiana połączenia diod z szeregowego na równoległe w podanej sytuacji wiąże się z ryzykiem uszkodzenia elementów}
 Nie, jedyne o czym trzeba pamiętać to odpowiednio wysokie napiecie zasilania.
+\subsubsection*{W których miejcach pomiar napiecia stałego w układzie ma sens?}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/schematpunkty.png}
+\end{figure}
+
+Jakikolwiek sens: C, B
+
+Napięcie na wyjściu źródła prądowego: C
+
+\subsubsection*{Jaką role w układzie pełni tranzysotr Q2?}
+Pełni role stabilizowania spadku napiecia na rownolegle podłączonym do niego rezystorze.
+
+\subsubsection*{Co się stanie, jeśli rezystor R2 zastąpimy zwarciem?}
+Przy rezystancji dążącej do 0 prąd bedzie dążyć do nieskonczoności co nie jest możliwe.
+\subsubsection*{Czy na rezystorze R2 pojawi się rzeczywiście 0.6V? Dlaczego? Które złącze, w którym tranzystorze powoduje ustabilizowanie się tego spadku napięcia?}
+Nie jest to tylko w przybliżeniu 0.6V, ten spadek wynika z spadku napiecia na tranzystorze Q2 baza-emiter.
+\subsubsection*{W jakim stanie pracuje tranzystor, gdy układ poprawnie stabilizuje prąd?}
+Tranzystor pracuje w stanie aktywnym.
+
+\section{Źródło prądowe sterowane napięciem}
+Wraz ze wzrostem napięcia sterowania, natężenie prądu powinno rosnąć według teorii.
+Zaobserwowaliśmy, że prąd rośnie, więc można uznać, że wynik zgadza się z teorią.
+
+\subsubsection*{Wykresy zależności}
+
+\subsubsection*{Transkonduktancja}
+
+\subsubsection*{Maksymalny prąd(diody szeregowo)}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+Diody & I{[}mA{]} \\ \hline
+-     & 0,012     \\ \hline
+1     & 0,012     \\ \hline
+2     & 0,010     \\ \hline
+3     & 0,007     \\ \hline
+\end{tabular}
+\end{table}
+
+
+\section{Wnioski}
+
+
 
 
 
