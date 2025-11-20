@@ -92,19 +92,72 @@ Napięcie na wyjściu źródła prądowego: C
 Pełni role stabilizowania spadku napiecia na rownolegle podłączonym do niego rezystorze.
 
 \subsubsection*{Co się stanie, jeśli rezystor R2 zastąpimy zwarciem?}
-Przy rezystancji dążącej do 0 prąd bedzie dążyć do nieskonczoności co nie jest możliwe.
+Przy rezystancji dążącej do 0 prąd bedzie dążyć do nieskonczoności co nie jest możliwe. W rzeczywistosci zwarcie R2 spowodowałoby wejście tranzystora w nasycenie, co ograniczy prąd do wartości wynikającej z charakterystyk elementów oraz rezystancji przewodów. 
 \subsubsection*{Czy na rezystorze R2 pojawi się rzeczywiście 0.6V? Dlaczego? Które złącze, w którym tranzystorze powoduje ustabilizowanie się tego spadku napięcia?}
 Nie jest to tylko w przybliżeniu 0.6V, ten spadek wynika z spadku napiecia na tranzystorze Q2 baza-emiter.
 \subsubsection*{W jakim stanie pracuje tranzystor, gdy układ poprawnie stabilizuje prąd?}
 Tranzystor pracuje w stanie aktywnym.
 
 \section{Źródło prądowe sterowane napięciem}
-Wraz ze wzrostem napięcia sterowania, natężenie prądu powinno rosnąć według teorii.
-Zaobserwowaliśmy, że prąd rośnie, więc można uznać, że wynik zgadza się z teorią.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{img/schematnap.png}
+\end{figure}
 
 \subsubsection*{Wykresy zależności}
 
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+        \$U\_s\$ & \$I\_o\$ & \$U\_c\$ & \$U\_e\$ \\ \hline
+        1 & 1,16 & 7,23 & 0,65 \\ \hline
+        2 & 2,33 & 5,88 & 0,64 \\ \hline
+        3 & 3,50 & 4,66 & 0,65 \\ \hline
+        4 & 4,65 & 3,46 & 0,66 \\ \hline
+        4,4 & 4,94 & 2,99 & 0,66 \\ \hline
+        5 & 5,82 & 2,28 & 0,67 \\ \hline
+        6 & 6,99 & 1,23 & 0,68 \\ \hline
+        7 & 8,15 & 0,01 & 0,69 \\ \hline
+        8 & 8,50 & 0,67 & 0,73 \\ \hline
+        9 & 8,50 & 0,68 & 0,73 \\ \hline
+        10 & 8,50 & 0,69 & 0,73 \\ \hline
+        11 & 8,52 & 0,70 & 0,73 \\ \hline
+        12 & 8,33 & 0,70 & 0,73 \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{img/Io=f(Us).png}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{img/Uc,Ue=f(Us).png}
+\end{figure}
+
 \subsubsection*{Transkonduktancja}
+
+Transkonduktancja to współczynnik określający zmiennosc prądu na wyjściu układu, w zależności od napiecia na wejściu. 
+
+\[
+g_{m \quad teoretyczna}=\frac{1}{R_0}=\frac{1}{1000}=0.001
+\]
+Wynik ten nalezy interpretowac jako A/V wiec otrzymaliśmy:
+\[
+g_m=1\frac{mA}{V}
+\]
+
+Transkonduktancje z pomiarów możemy wyznaczyc korzystajac z współczynnika kierunkowego prostej uzyskanej poprzez regresje liniową z naszych pomiarów
+
+\[
+g_{m \quad wyznaczone}=1.17 \frac{mA}{V}
+\]
+
+Różnica pomiędzy wartością teoretyczną a wyznaczoną eksperymentalnie wynika głównie z uproszczonego modelu teoretycznego. W rzeczywistym układzie na wartość transkonduktancji wpływa nieliniowy charakter złącza baza–emiter, zmiany temperatury oraz nieidealne odwzorowanie liniowości dla wyższych napięć sterujących. Mimo to obie wartości pozostają zgodne rzędu wielkości, co potwierdza poprawność działania układu
+
 
 \subsubsection*{Maksymalny prąd(diody szeregowo)}
 \begin{table}[H]
@@ -122,8 +175,7 @@ Diody & I{[}mA{]} \\ \hline
 
 \section{Wnioski}
 
-
-
+Porównanie wyników teoretycznych i pomiarowych pokazuje zgodność charakteru działania obu źródeł prądowych. Różnice wynikają głównie z rzeczywistych parametrów tranzystorów, w szczególności zmienności napięcia $U_{BE}$, które zależy od temperatury oraz prądu. W układzie sterowanym napięciem obserwujemy wyraźny zakres pracy liniowej oraz obszar nasycenia, co ogranicza maksymalną wartość prądu. Stabilizacja prądu w układzie na bazie tranzystorów potwierdza skuteczność sprzężenia zwrotnego wykorzystującego spadek napięcia baza–emiter. Przeprowadzone pomiary pozwalają ocenić zarówno zalety, jak i ograniczenia prostych źródeł prądowych zbudowanych na tranzystorach bipolarnych
 
 
 
