@@ -8,11 +8,8 @@ pts2 = np.float32([[0,0],[300,0],[0,300],[300,300]])
 def draw_circle(event,x,y,flags,param):
     if event == cv.EVENT_LBUTTONDBLCLK:
         cv.circle(resized,(x,y),10,(0,0,255),-1)
-
         plist.append((x,y)) 
-
-    
-
+        
     if len(plist)==4:
         points=np.float32(plist)
         M = cv.getPerspectiveTransform(points,pts2)
