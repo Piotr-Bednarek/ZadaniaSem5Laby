@@ -36,9 +36,6 @@ while True:
                 # Green square
                 image[i : i + square_size, j : j + square_size] = [0, newG, 0]
 
-
-    # Display the image
-
     key = cv2.waitKey(1) & 0xFF
     if key == ord("q") or key == 27:
                 break

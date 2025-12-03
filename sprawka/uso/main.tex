@@ -31,6 +31,23 @@
 \usepackage{lmodern}
 \usepackage{microtype}
 \usepackage{listings}
+\usepackage{xcolor}
+
+\lstdefinestyle{MyStyle}{
+    basicstyle=\ttfamily\small, % Font family and size
+    keywordstyle=\color{blue}\bfseries, % Style for keywords
+    commentstyle=\color{green!60!black}\itshape, % Style for comments
+    %stringstyle=\color{red}, % Style for strings
+    numberstyle=\tiny\color{gray}, % Style for line numbers
+    backgroundcolor=\color{gray!10}, % Background color
+    frame=single, % Add a frame around the code block
+    breaklines=true, % Allows long lines to wrap
+    language=Java, % Default language
+    numbers=left, % Line numbers on the left
+    showstringspaces=false % Don't show spaces in strings
+}
+
+\lstset{style=MyStyle}
 
 \definecolor{xppblue}{RGB}{37, 150, 190}
 
@@ -44,7 +61,7 @@
 
 \newpage
 
-\section{Lab 3-4}
+\section{Ćwiczenie 3-4}
 \subsection{Układ RC}
 
 Pod rozważania brany jest układ RC przedstawiony an Figure 1. Przyjęto że:
@@ -223,7 +240,7 @@ K = \begin{bmatrix} 9.83333333 & 16 & 6.16666667 \\ \end{bmatrix}
 Układ wytrącono z równowagi w postaci warunków początkowych wynaszacych $\dot{x} = \begin{bmatrix} 1 & 0.5 & -0.5 \\ \end{bmatrix}$
 
 
-\section{Lab 5}
+\section{Ćwiczenie 5}
 
 Na zajeciach numer 5 przedstawiono metody optymalizacji matematycznej, rozpatrywano dany problem:
 \[
@@ -233,10 +250,12 @@ z ograniczeniami
 \[
 x(0)=1 \qquad x(1)=3
 \]
-pomijajac przekształcenia ostatecznie otrzymano analitycznie wyznaczoną optymalną trajektorie:
+pomijajac przekształcenia ostatecznie otrzymano analitycznie optymalną trajektorie:
 \[
 x^*=t^3+t+1
 \]
+
+\newpage
 
 \begin{lstlisting}
 m2=GEKKO()
@@ -277,17 +296,38 @@ J_res=J_f.value[0]
 print(f'minimalna wartosc calki= {J_res:.6f}')
 \end{lstlisting}
 
-Analitycznie wyznaczona optymalna trajektoria wynosiła:
-\[
-x^*=t^3+t+1
-\]
-
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\linewidth]{img/trajektorielab5.png}
 \end{figure}
 
-Widać że, przebiegi trajektori osiagniętej metodami numerycznymi i trajektori wyprowadzonej analitycznie pokrywaja sie co dowodzi skuteczności i wiarygodności rezultatów osiganych poprzez bibliotekę GEKKO
+Po wyznaczeniu wuktora wartosci dla trajektori wyznaczonej analitycznie, i naniesieniu jej na jeden wykres wspólnie z trajektoria obliczoną przez GEKKO można stwierdzić że trajektorie te pokrywaja sie z nieznacznym błedem. Do wyznaczenia rzedu tego błedu może posłużyc wartość całkowego wskacnika jakości:
+\[
+J_{GEKKO}= 32.729852
+\] 
+\[
+J_{analitycznie}=\int_{0}^{1} 24x(t)t+2\dot{x}(t)^2-4t dt
+\]
+\begin{center}
+jeśli:
+\[
+x(t)=t^3+t+1
+\]
+to:
+\end{center}
+\[
+J_{analitycznie}=\int_{0}^{1} 24(t^3+t+1)t + 2(3t^2+1)^2 -4t dt = \frac{466}{15} \approx 31.067
+\]
+
+Co daje nam błąd na poziomie:
+\[
+\frac{32.729852-31.067}{31.067}\cdot 100\%=5.53\%
+\]
+
+\section{Ćwiczenie 6} 
+
+
+
 
 
 
