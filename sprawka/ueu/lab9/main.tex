@@ -1,0 +1,112 @@
+\documentclass[11pt]{article}
+
+\pdfobjcompresslevel=3    % compress PDF objects
+\pdfcompresslevel=9       % compress streams more (0..9)
+\pdfminorversion=4
+
+
+\usepackage[utf8]{inputenc} % remove if using XeLaTeX or LuaLaTeX
+\usepackage[T1]{fontenc}
+
+% Layout & graphics
+\usepackage[a4paper, total={7.5in, 9in}]{geometry}
+\usepackage{graphicx}              % images
+\usepackage[dvipsnames,table]{xcolor} % single xcolor invocation (keeps table option)
+
+% Math & symbols
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gensymb}
+
+% Typography & layout helpers
+\usepackage{microtype}
+\usepackage{float}                 % [H] placement
+\usepackage{caption}
+\usepackage{subcaption}            % modern subfigure support (do NOT load subfig)
+\usepackage{multirow}
+\usepackage{titlesec}
+
+\usepackage{lmodern}
+\usepackage{microtype}
+
+\definecolor{xppblue}{RGB}{37, 150, 190}
+
+\begin{document}
+
+\begin{table}[h]
+\centering
+\scalebox{1.5}{
+\begin{tabular}{|ccll|cl|}
+\hline
+\multicolumn{4}{|c|}{SPRAWOZDANIE Z LABORATORIUM}                                                                                                                            & \multicolumn{2}{c|}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}rok akademicki:\\ 2025/26\end{tabular}}} \\ \cline{1-4}
+\multicolumn{4}{|c|}{\textbf{Układy elektroniki użytkowej}}                                                                                                                          & \multicolumn{2}{c|}{}                                                                                   \\ \hline
+\multicolumn{4}{|c|}{\multirow{2}{*}{\textit{Generator RC z mostkiem Wiena}}}                                                                                           & \multicolumn{2}{c|}{\multirow{2}{*}{czwartek 8:00}}                                                \\
+\multicolumn{4}{|c|}{}                                                                                                                                                       & \multicolumn{2}{c|}{}                                                                                   \\ \hline
+\multicolumn{1}{|c|}{WARiE, AiR, sem 5}          & \multicolumn{3}{c|}{\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}} \underline{1. Jan Andrzejewski}\\2. Mateusz Banaszak\\\end{tabular}}} & \multicolumn{2}{l|}{\multirow{2}{*}{Punkty:}}                                                           \\ \cline{1-1}
+\multicolumn{1}{|c|}{27.11.2025}                   & \multicolumn{3}{c|}{}                                                                                                   & \multicolumn{2}{l|}{}                                                                                   \\ \hline
+\end{tabular}
+}
+\end{table}
+\vspace{2\baselineskip}
+
+\section{Mostek Wiena}
+\subsection{Mostek Wiena $R=10k\Omega$, $C=100nF$}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{img/mostekwiena.png}
+\caption{Mostek Wiena}
+\end{figure}
+
+Gdzie $R = 10 k\Omega$ i $C = 100 nF$, stąd wiemy ze czestotliwość pseudorezonansowa wynosi:
+
+\begin{equation}
+f_{0 \text{ zmierzone}} = \frac{1}{2\pi RC} = \frac{1}{2\pi \cdot 10^4 \cdot 10^{-7}} \approx 159 Hz
+\end{equation}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{img/charakterystyka.png}
+\caption{Charakterystyka mostka Wiena}
+\end{figure}
+
+\subsection{Generator RC}
+
+\begin{equation}
+K = \frac{u_{gen}}{u_H} = \frac{4,87}{1,65} \approx 2,96
+\end{equation}
+
+
+\subsection{Podsumowanie}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+ & \multicolumn{2}{|c|}{Mostek Wiena} & \multicolumn{4}{c|}{Generator} \\ \hline
+ & $f_0$ zmierzone [Hz] & $f_0$ obliczone [Hz] & $f_{gen}$ [Hz] & $u_{gen}$ [V] & $u_H$ [V] & K \\ \hline
+ & 181 & 159 & 172 & 4,87 & 1,65 & 2,96 \\ \hline
+\end{tabular}
+\end{table}
+
+
+\section{Wnioski}
+
+\subsection{Porównanie $f_0$ obliczone vs $f_0$ zmierzone}
+Wartość częstotliwości pseudorezonansowej mostka Wiena została zmierzona z charakterystyki fazowej jako wartość częstotliwości dla przesunięcia fazowego równego 0.
+Przeprowadzone pomiary częstotliwości pseudorezonansowe $f_0$ odczytanej z wykresów fazowych (odpowiednio 135 Hz dla pierwszego układu i 589 Hz dla drugiego) wykazują pewne rozbieżności z wartościami obliczonymi teoretycznie. Różnice te wynikają głównie z faktu, że punkt przejścia fazy przez 0\degree\ nie pokrywa się idealnie z punktem maksymalnego wzmocnienia, co jest efektem tolerancji elementów RC oraz parametrów pasożytniczych układu.
+
+Zauważono, że odczyt częstotliwości pseudorezonansowej z maksimum wzmocnienia daje wyniki (166 Hz i 741 Hz) znacznie bliższe wartościom teoretycznym. Sugeruje to, że w rzeczywistym układzie maksimum transmitancji jest lepszym wyznacznikiem częstotliwości pracy generatora niż kryterium fazowe.
+
+\subsection{Analiza wzmocnienia i warunek oscylacji}
+Zmierzone wartości wzmocnienia ($k \approx 2,96$ oraz $k \approx 2,95$) oscylują wokół teoretycznej wartości $k=3$, co potwierdza spełnienie warunku amplitudy Barkhausena niezbędnego do samowzbudzenia się układu. Niewielkie odchylenia są kompensowane przez nieliniowość elementu regulacyjnego w pętli sprzężenia zwrotnego.
+
+\subsection{Stabilizacja amplitudy i rola diod Zenera}
+Kluczowym elementem zapewniającym stabilność i jakość generowanego sygnału jest układ automatycznej regulacji wzmocnienia (AGC) zrealizowany na diodach Zenera.
+\begin{itemize}
+    \item \textbf{Zbyt małe wzmocnienie ($k < 3$)}: Warunek amplitudy nie jest spełniony, drgania gasną.
+    \item \textbf{Optymalne wzmocnienie ($k \approx 3$)}: Diody Zenera zaczynają przewodzić przy wzroście amplitudy, dynamicznie zmniejszając rezystancję w pętli sprzężenia zwrotnego. Dzięki temu wzmocnienie jest redukowane do poziomu jedności dla pętli zamkniętej, co stabilizuje amplitudę i zapewnia czysty przebieg sinusoidalny.
+    \item \textbf{Zbyt duże wzmocnienie}: Wzmacniacz wchodzi w głębokie nasycenie, a diody Zenera obcinają sygnał zbyt gwałtownie, co prowadzi do silnych zniekształceń nieliniowych (przebieg zbliżony do prostokątnego).
+\end{itemize}
+Przeprowadzone badania potwierdziły, że mostek Wiena w połączeniu z nieliniową pętlą sprzężenia zwrotnego stanowi stabilne i przestrajalne źródło napięcia sinusoidalnego.
+
+\end{document}
