@@ -61,30 +61,60 @@
 Gdzie $R = 10 k\Omega$ i $C = 100 nF$, stąd wiemy ze czestotliwość pseudorezonansowa wynosi:
 
 \begin{equation}
-f_{0 \text{ zmierzone}} = \frac{1}{2\pi RC} = \frac{1}{2\pi \cdot 10^4 \cdot 10^{-7}} \approx 159 Hz
+f_{0 \text{ obliczone}} = \frac{1}{2\pi RC} = \frac{1}{2\pi \cdot 10^4 \cdot 10^{-7}} \approx 159 Hz
 \end{equation}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5\textwidth]{img/charakterystyka.png}
+\includegraphics[width=0.5\textwidth]{img/charakterystyka copy.png}
 \caption{Charakterystyka mostka Wiena}
 \end{figure}
 
+\[
+f_{0 \text{ zmierzone}} = 181 Hz
+\]
+
+\subsection{Mostek Wiena $R=10k\Omega$, $C=22nF$}
+
+Dla $R=10k\Omega$ i $C=22nF$ przeprowadziliśmy analize w taki sam sposób jak dla poprzedniego układu pomiary.
+
+\begin{equation}
+f_{0 \text{obliczone}} = \frac{1}{2\pi RC} = \frac{1}{2\pi \cdot 10^4 \cdot 22^{-9}} \approx 589 Hz
+\end{equation}
+
+\[
+f_{0 \text{ zmierzone}} = 865 Hz
+\]
+
+
+
+
 \subsection{Generator RC}
+
+\subsubsection{Mostek Wiena $R=10k\Omega$, $C=100nF$}
 
 \begin{equation}
 K = \frac{u_{gen}}{u_H} = \frac{4,87}{1,65} \approx 2,96
 \end{equation}
 
+\subsubsection{Mostek Wiena $R=10k\Omega$, $C=22nF$}
 
-\subsection{Podsumowanie}
+\begin{equation}
+K = \frac{u_{gen}}{u_H} = \frac{5,03}{1,7} \approx 2,95
+\end{equation}
+
+
+\section{Podsumowanie}
+
+
 \begin{table}[H]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|cc|cccc|}
 \hline
- & \multicolumn{2}{|c|}{Mostek Wiena} & \multicolumn{4}{c|}{Generator} \\ \hline
- & $f_0$ zmierzone [Hz] & $f_0$ obliczone [Hz] & $f_{gen}$ [Hz] & $u_{gen}$ [V] & $u_H$ [V] & K \\ \hline
- & 181 & 159 & 172 & 4,87 & 1,65 & 2,96 \\ \hline
+\multirow{2}{*}{Badany układ} & \multicolumn{2}{c|}{Mostek Wiena}                                                        & \multicolumn{4}{c|}{Generator}                                                                                                                       \\ \cline{2-7} 
+                              & \multicolumn{1}{c|}{$f_0$ zmierzone [Hz]} & $f_0$ obliczone [Hz] & \multicolumn{1}{c|}{$f_{gen}$ [Hz]} & \multicolumn{1}{c|}{$u_{gen}$ [V]} & \multicolumn{1}{c|}{$u_H$ [V]} & K    \\ \hline
+$10k\Omega$ 100nF             & \multicolumn{1}{c|}{181}                              & 159                              & \multicolumn{1}{c|}{181}                        & \multicolumn{1}{c|}{5,03}                      & \multicolumn{1}{c|}{1,7}                   & 2,96 \\ \hline
+$10k\Omega$ 22nF              & \multicolumn{1}{c|}{865}                              & 723                              & \multicolumn{1}{c|}{865}                        & \multicolumn{1}{c|}{4,87}                      & \multicolumn{1}{c|}{1,65}                  & 2,95 \\ \hline
 \end{tabular}
 \end{table}
 
@@ -92,21 +122,14 @@ K = \frac{u_{gen}}{u_H} = \frac{4,87}{1,65} \approx 2,96
 \section{Wnioski}
 
 \subsection{Porównanie $f_0$ obliczone vs $f_0$ zmierzone}
-Wartość częstotliwości pseudorezonansowej mostka Wiena została zmierzona z charakterystyki fazowej jako wartość częstotliwości dla przesunięcia fazowego równego 0.
-Przeprowadzone pomiary częstotliwości pseudorezonansowe $f_0$ odczytanej z wykresów fazowych (odpowiednio 135 Hz dla pierwszego układu i 589 Hz dla drugiego) wykazują pewne rozbieżności z wartościami obliczonymi teoretycznie. Różnice te wynikają głównie z faktu, że punkt przejścia fazy przez 0\degree\ nie pokrywa się idealnie z punktem maksymalnego wzmocnienia, co jest efektem tolerancji elementów RC oraz parametrów pasożytniczych układu.
+Wartość częstotliwości pseudorezonansowej mostka Wiena została zmierzona z charakterystyki fazowej jako wartość częstotliwości dla przesunięcia fazowego równego 0 i jako wartość częstotliwości dla wzmocnienia równego $\frac{1}{3}$. W obu przypadkach do porównania zostały użyte wartości czestotliwości pseudorezonansowej odczytane z przesunięcia fazowego równego 0.
+Odczytane wartości częstotliwości pseudorezonansowejwykazują pewne rozbieżności z wartościami obliczonymi teoretycznie. Różnice te wynikają głównie z faktu, że punkt przejścia fazy przez 0\degree\ nie pokrywa się idealnie z punktem maksymalnego wzmocnienia, co jest efektem tolerancji elementów RC oraz parametrów pasożytniczych układu.
 
-Zauważono, że odczyt częstotliwości pseudorezonansowej z maksimum wzmocnienia daje wyniki (166 Hz i 741 Hz) znacznie bliższe wartościom teoretycznym. Sugeruje to, że w rzeczywistym układzie maksimum transmitancji jest lepszym wyznacznikiem częstotliwości pracy generatora niż kryterium fazowe.
+Zmierzone wartości wzmocnienia ($k \approx 2,96$ oraz $k \approx 2,95$) są zbliżone do teoretycznej wartości $k=3$, co potwierdza spełnienie warunku amplitudy.
 
-\subsection{Analiza wzmocnienia i warunek oscylacji}
-Zmierzone wartości wzmocnienia ($k \approx 2,96$ oraz $k \approx 2,95$) oscylują wokół teoretycznej wartości $k=3$, co potwierdza spełnienie warunku amplitudy Barkhausena niezbędnego do samowzbudzenia się układu. Niewielkie odchylenia są kompensowane przez nieliniowość elementu regulacyjnego w pętli sprzężenia zwrotnego.
-
-\subsection{Stabilizacja amplitudy i rola diod Zenera}
-Kluczowym elementem zapewniającym stabilność i jakość generowanego sygnału jest układ automatycznej regulacji wzmocnienia (AGC) zrealizowany na diodach Zenera.
-\begin{itemize}
-    \item \textbf{Zbyt małe wzmocnienie ($k < 3$)}: Warunek amplitudy nie jest spełniony, drgania gasną.
-    \item \textbf{Optymalne wzmocnienie ($k \approx 3$)}: Diody Zenera zaczynają przewodzić przy wzroście amplitudy, dynamicznie zmniejszając rezystancję w pętli sprzężenia zwrotnego. Dzięki temu wzmocnienie jest redukowane do poziomu jedności dla pętli zamkniętej, co stabilizuje amplitudę i zapewnia czysty przebieg sinusoidalny.
-    \item \textbf{Zbyt duże wzmocnienie}: Wzmacniacz wchodzi w głębokie nasycenie, a diody Zenera obcinają sygnał zbyt gwałtownie, co prowadzi do silnych zniekształceń nieliniowych (przebieg zbliżony do prostokątnego).
-\end{itemize}
+\subsection{Generator RC z mostkiem Wiena}
+Kluczowym elementem zapewniającym stabilność i jakość generowanego sygnału jest układ automatycznej regulacji wzmocnienia zrealizowany na diodach Zenera.
+Przy optymalnym wzmocnieniu ($k \approx 3$) diody Zenera zaczynają przewodzić przy wzroście amplitudy, dynamicznie zmniejszając rezystancję w pętli sprzężenia zwrotnego. Dzięki temu wzmocnienie jest redukowane do poziomu jedności dla pętli zamkniętej, co stabilizuje amplitudę i zapewnia czysty przebieg sinusoidalny.
 Przeprowadzone badania potwierdziły, że mostek Wiena w połączeniu z nieliniową pętlą sprzężenia zwrotnego stanowi stabilne i przestrajalne źródło napięcia sinusoidalnego.
 
 \end{document}
