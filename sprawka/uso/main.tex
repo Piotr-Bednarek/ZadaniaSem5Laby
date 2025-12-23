@@ -392,7 +392,7 @@ Dla danego układu zaimplementowano regulator PID.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\linewidth]{img/pid1.png}
-  \caption{}
+  \caption{Przebieg wyjścia dla empirycznie dobranych nastawów}
 \end{figure}
 
 Taki przebieg uzyskano dla empirycznie dobranych nastawów:
@@ -410,7 +410,12 @@ Taki przebieg uzyskano dla empirycznie dobranych nastawów:
 
 \subsection{Rola poszczególnych wzmocnień w regulatorze PID}
 
-tutaj jakas pierdulka 
+Regulator PID składa się z trzech członów: proporcjonalnego ($P$), całkującego ($I$) oraz różniczkującego ($D$). Każdy z nich pełni określoną rolę w procesie regulacji:
+\begin{itemize}
+    \item \textbf{Człon proporcjonalny ($K_P$):} Odpowiada za szybkość reakcji na uchyb regulacji. Zwiększenie wzmocnienia $K_P$ powoduje szybszą reakcję układu i zmniejszenie uchybu ustalonego, ale zbyt duża wartość może prowadzić do przeregulowań i oscylacji.
+    \item \textbf{Człon całkujący ($K_I$):} Jego zadaniem jest eliminacja uchybu w stanie ustalonym. Działa poprzez sumowanie uchybu w czasie. Zbyt duże wzmocnienie $K_I$ może powodować przeregulowania i wydłużyć czas ustalania się odpowiedzi.
+    \item \textbf{Człon różniczkujący ($K_D$):} Reaguje na szybkość zmian uchybu, co pozwala przewidywać jego przyszłe wartości. Działa tłumiąco na oscylacje i poprawia stabilność układu.
+\end{itemize} 
 
 \subsection{Metoda Zieglera-Nicholsa}
 
@@ -460,14 +465,14 @@ wolny           & 13.71 & 27.9 & 10.08 & 46.9  \\ \hline
 \begin{figure}[H]
 \centering
   \includegraphics[width=0.5\linewidth]{img/wskaznikipid.png}
-  \caption{Przebeigi dla róznych nastawow i q=r=1}
+  \caption{Przebiegi dla różnych nastawów i $q=r=1$}
 \end{figure}
 
 Wskaźnik ISE wyznacza się jako $\int_{0}^{T}e^2(t)dt$. Duże wartości uchybu przekładają się na bardzo duży wzrost wartości wskaźnika jakości. Na wykresie wyraźnie widać, że najmniejszą wartość ISE udało się osiągnąć dla przebiegu wyjścia z najmniejszymi przeregulowaniami. 
 
-W przypadku kiedy rozwazany jest wskaznik $I_{opt}$ zmiana wspolczynnikow q i r zmienia proporcje w jakich brany jest pod uwage uchyb i sygnał sterujacy. Modyfikując q i r wpływa sie na priorytet sterowania, q wpływa na uchyb czyli precyzje sterowania a r wpływa na sygnał sterujacy czyli energie dostarczona do układu
+W przypadku, kiedy rozważany jest wskaźnik $I_{opt}$, zmiana współczynników $q$ i $r$ zmienia proporcje, w jakich brany jest pod uwagę uchyb i sygnał sterujący. Modyfikując $q$ i $r$, wpływa się na priorytet sterowania: $q$ wpływa na uchyb, czyli precyzję sterowania, a $r$ wpływa na sygnał sterujący, czyli energię dostarczoną do układu. Zmieniając $q$ i $r$, naturalnie zmieniają się nastawy regulatora, ponieważ zostaną zmienione narzucone odgórnie kryteria, według których ma się odbywać sterowanie.
 
-\subsection{Model z wskaznikami całkowymi}
+\subsection{Model ze wskaźnikami całkowymi}
 
 \begin{lstlisting}
   def model_with_pid_integralquality(x,t, yd, Kp, Ki, Kd, q, r):
@@ -538,15 +543,77 @@ Z przyjętymi parametrami $R=0.5\Omega$, $L=0.2H$ i $C=0.5F$, gdzie za zmienne s
 \end{bmatrix}u
 \]
 
+\subsection{Macierz $K$ dla nieskończonego horyzontu czasowego}
+
+Macierz wzmocnień wyznaczona poprzez rozwiązanie algebraicznego równania Riccatiego dla rozważanego układu i parametrów $Q=I_2$ i $R=1$.
+
+\[
+K=\begin{bmatrix}
+  0.23606798 & 0.65949437
+\end{bmatrix}
+\]
+
 \subsection{Odpowiedź skokowa układu RLC dla jednostkowych R i Q}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\linewidth]{img/skoklqr1.png}
-  \caption{}
+  \caption{Odpowiedź układu na wymuszenie w postaci wytrącenia z równowagi}
+\end{figure}
+
+\subsection{Wpływ parametrów $Q$ i $R$ na sterowanie}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{img/zmiennestanulqr.png}
+  \caption{Odpowiedzi układu z różnymi $Q$ i $R$}
+\end{figure}
+
+Z wykresu bezpośrednio można wyciągnąć wnioski o wpływie macierzy $Q$ i $R$ na sterowanie. Przebieg pomarańczowy, gdzie macierz $Q$ jest większa, priorytetyzuje osiągnięcie zadanej wartości jak najszybciej, robi to dostarczając do układu energię poprzez tłumienie oscylacji.
+Przebieg zielony, priorytetyzujący za to minimalizację kosztu energetycznego, "pozwala" na większe oscylacje.
+
+\subsection{Macierz P(t)}
+
+\begin{figure}[H]
+  \centering 
+  \includegraphics[width=0.5\linewidth]{img/P(T).png}
+  \caption{Elementy macierzy $P(t)$ dla $Q=I_2$, $R=1$ i $S=10I_2$}
 \end{figure}
 
 
+\subsection{Nieskończony kontra skończony horyzont czasowy}
+
+Największe różnice pomiędzy działaniem regulatora LQR z nieskończonym i skończonym horyzontem czasowym można zaobserwować w przypadku, gdy czas regulacji jest krótszy niż potrzebny na osiągnięcie wartości zadanej, np.:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{img/ithfthpor.png}
+  \caption{Porównanie ITH i FTH}
+\end{figure}
+
+Na tym przebiegu wyraźnie widać różnice pomiędzy ITH i FTH. Widać, że druga zmienna stanu w skończonym horyzoncie około 0.7s zaczyna być forsowana do osiągnięcia celu. Widać też, że po zakończeniu regulacji będzie miała ona swojego rodzaju bezwładność. 
+
+\subsection{Stabilizacja w punkcie}
+
+\newpage
+\begin{lstlisting}
+  def model_FTH_setpoint(x_roz, t, x_d, u_d):
+    x = x_roz[:2]
+    x_vec = x.reshape(2, 1)
+    x_d_vec = x_d.reshape(2, 1)
+    
+    P_t = get_P_t(t)
+    K_t = R_inv @ B.T @ P_t
+    
+    #u = -K(x - x_d) + u_d
+    u = -K_t @ (x_vec - x_d_vec) + u_d
+    
+    u_mat = u 
+    
+    dx = A @ x_vec + B @ u_mat
+    
+    return dx.flatten()
+
+\end{lstlisting}
 
 
 
