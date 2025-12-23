@@ -373,9 +373,9 @@ GEKKO za bardzo wiarygodne.
   \caption{Rozważany układ elektryczny}
 \end{figure}
 
-Dla danego układu z parametrami $R_1=2\Omega$,$R_2=5\Omega$,$C_1=0.5F$,$L_1=2H$ i $L_2=0.5H$. Przyjmując zmienne w postaci $x=\begin{bmatrix}
+Dla danego układu z parametrami $R_1=2\Omega$, $R_2=5\Omega$, $C_1=0.5F$, $L_1=2H$ i $L_2=0.5H$, przyjmując zmienne w postaci $x=\begin{bmatrix}
   i_1 & i_2 & u_2 
-\end{bmatrix}^T$, wyznaczonao równania stanu:
+\end{bmatrix}^T$, wyznaczono równania stanu:
 \[
 \dot{x}=\begin{bmatrix}
   -\frac{R_1}{L_1} & 0 & -\frac{1}{L_1}\\
@@ -388,7 +388,7 @@ Dla danego układu z parametrami $R_1=2\Omega$,$R_2=5\Omega$,$C_1=0.5F$,$L_1=2H$
 
 \subsection{Przebieg wyjścia układu z regulatorem PID}
 
-Dla danego układu zaimplementowano regulator PID 
+Dla danego układu zaimplementowano regulator PID. 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\linewidth]{img/pid1.png}
@@ -414,8 +414,8 @@ tutaj jakas pierdulka
 
 \subsection{Metoda Zieglera-Nicholsa}
 
-Metoda Zieglera-Nicholsa polega na na odnalezieniu
-krytycznej wartości wzmocnienia kp, dla której układ znajduje się na granicy stabilnośc. Wprowadzajac układ na granice stabilnosci zaczna wystepowac oscylacje. Dla poprawnego wyznaczenia wzmocnien według metody ZG należy wyznaczyc okres tych oscylacji.
+Metoda Zieglera-Nicholsa polega na odnalezieniu
+krytycznej wartości wzmocnienia $k_p$, dla której układ znajduje się na granicy stabilności. Wprowadzając układ na granicę stabilności, zaczną występować oscylacje. Dla poprawnego wyznaczenia wzmocnień według metody Z-N należy wyznaczyć okres tych oscylacji.
 
 \begin{figure}[H]
   \centering
@@ -423,7 +423,7 @@ krytycznej wartości wzmocnienia kp, dla której układ znajduje się na granicy
   \caption{Przebieg wyjścia układu na granicy stabilności}
 \end{figure}
 
-Z wyznaczonymi parametrami ku i Tu można wynaczyc wzmocenienia dla poszczególnych czlonów różnych regulatorów
+Z wyznaczonymi parametrami $k_u$ i $T_u$ można wyznaczyć wzmocnienia dla poszczególnych członów różnych regulatorów.
 
 \begin{table}[H]
   \centering
@@ -435,18 +435,87 @@ PI        & 33,975 & 25,16  & -       \\ \hline
 PD        & 60,4   & -      & 12,231  \\ \hline
 PID       & 45,3   & 55,926 & 9,17325 \\ \hline
 \end{tabular}
+\caption{Parametry PID}
 \end{table}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\linewidth]{img/pidsymulacjezg.png}
+  \caption{Przebiegi wyjścia dla różnych regulatorów}
 \end{figure}
 
 \subsection{Całkowe wskaźniki jakości}
+\begin{table}[H]
+  \centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+Nastawy         & ISE   & ITSE & IAE   & ITAE  \\ \hline
+Ziegler-Nichols & 12.2  & 29.9 & 10.3  & 57.12 \\ \hline
+szybki          & 4.57  & 1.56 & 2.45  & 1.97  \\ \hline
+wolny           & 13.71 & 27.9 & 10.08 & 46.9  \\ \hline
+\end{tabular}
+\caption{Wartości całkowych wskaźników jakości dla q=r=1}
+\end{table}
 
+\begin{figure}[H]
+\centering
+  \includegraphics[width=0.5\linewidth]{img/wskaznikipid.png}
+  \caption{Przebeigi dla róznych nastawow i q=r=1}
+\end{figure}
+
+Wskaźnik ISE wyznacza się jako $\int_{0}^{T}e^2(t)dt$. Duże wartości uchybu przekładają się na bardzo duży wzrost wartości wskaźnika jakości. Na wykresie wyraźnie widać, że najmniejszą wartość ISE udało się osiągnąć dla przebiegu wyjścia z najmniejszymi przeregulowaniami. 
+
+W przypadku kiedy rozwazany jest wskaznik $I_{opt}$ zmiana wspolczynnikow q i r zmienia proporcje w jakich brany jest pod uwage uchyb i sygnał sterujacy. Modyfikując q i r wpływa sie na priorytet sterowania, q wpływa na uchyb czyli precyzje sterowania a r wpływa na sygnał sterujacy czyli energie dostarczona do układu
+
+\subsection{Model z wskaznikami całkowymi}
+
+\begin{lstlisting}
+  def model_with_pid_integralquality(x,t, yd, Kp, Ki, Kd, q, r):
+    R1, R2 = 2, 5
+    L1, L2 = 2, 0.5
+    C1 = 0.5
+
+    x_sys = x[:3]
+
+    integral_e = x[3]
+    integral_e2 = x[4]
+    integral_te2 = x[5]
+    integral_abs_e = x[6]
+    integral_t_abs_e = x[7]
+    integral_qe2_ru2 = x[8]
+    
+
+    A = np.array([[-R1/L1, 0, -1/L1], [0, -R2/L2, 1/L1], [1/C1, -1/C1, 0]])
+    B = np.array([[1/L1], [0], [0]])
+    C = np.array([[0, 1, 0]])
+    D = 0
+
+    y = C @ x_sys
+
+    dxdt = A @ x_sys
+
+    dydt = C @ dxdt
+
+    e = yd - y
+    dedt = -dydt
+
+    u = Kp*e + Ki*integral_e + Kd*dedt
+
+    dxdt_sys = A @ x_sys + (B * u).flatten()
+
+    dintegral_e = e[0]
+    dintegral_e2 = e[0]**2
+    dintegral_te2 = t*e[0]**2
+    dintegral_abs_e = abs(e[0])
+    dintegral_t_abs_e = t*abs(e[0])
+    dintegral_qe2_ru2 = q*e[0]**2 + r*u[0]**2
+
+    return np.concatenate((dxdt_sys, [dintegral_e],[dintegral_e2],[dintegral_te2],[dintegral_abs_e],[dintegral_t_abs_e],[dintegral_qe2_ru2]))
+\end{lstlisting}
 
 
 \section{Ćwiczenie 7-8}
+
 \subsection{Rozważany układ}
 
 \begin{figure}[H]
@@ -455,9 +524,9 @@ PID       & 45,3   & 55,926 & 9,17325 \\ \hline
   \caption{Rozważany układ RLC}
 \end{figure}
 
-Z przyjetymi prametrami $R=0.5\Omega$,$L=0.2H$ i $C=0.5F$, gdzie za zmienne stanu przyjeto $x=\begin{bmatrix}
+Z przyjętymi parametrami $R=0.5\Omega$, $L=0.2H$ i $C=0.5F$, gdzie za zmienne stanu przyjęto $x=\begin{bmatrix}
   q_c & \dot{q_c}
-\end{bmatrix}^T$. Wyprowadzono równania stanu
+\end{bmatrix}^T$, wyprowadzono równania stanu:
 
 \[
 \dot{x}=\begin{bmatrix}
@@ -469,6 +538,13 @@ Z przyjetymi prametrami $R=0.5\Omega$,$L=0.2H$ i $C=0.5F$, gdzie za zmienne stan
 \end{bmatrix}u
 \]
 
+\subsection{Odpowiedź skokowa układu RLC dla jednostkowych R i Q}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{img/skoklqr1.png}
+  \caption{}
+\end{figure}
 
 
 
