@@ -1,0 +1,156 @@
+\documentclass[a4paper,onecolumn,twoside,10pt]{article}%{mwrep}
+
+\usepackage{times}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{lmodern} %Type1-font for non-english texts and characters
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{subcaption}
+
+\usepackage{booktabs} % Dla ładniejszych linii poziomych (\toprule, \midrule)
+\usepackage{colortbl} % Dla kolorowania wierszy
+\usepackage{array}    % Użyteczne z p{...}
+
+
+\usepackage[cmex10]{amsmath}
+
+%% Packages for Graphics & Figures %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\usepackage{bmpsize}
+
+\usepackage{graphicx} %%For loading graphic files
+%\usepackage[pdf]{pstricks}
+%\usepackage{pst-all}
+%\usepackage{moredefs}
+%\usepackage{auto-pst-pdf}
+%\usepackage{auto-pst-pdf}
+%\usepackage[crop=off]{auto-pst-pdf}
+
+\usepackage{fancyhdr}
+\usepackage{url}
+\usepackage{float}
+\usepackage{color}
+\usepackage{xcolor}
+
+\usepackage{multirow}
+
+%\usepackage{epstopdf}
+\definecolor{light-gray}{gray}{0.4}
+\definecolor{mauve}{rgb}{0.88, 0.69, 1.0}
+\definecolor{pakistangreen}{rgb}{0.0, 0.4, 0.0}
+\definecolor{pearl}{rgb}{0.94, 0.92, 0.84}
+\definecolor{whitesmoke}{rgb}{0.96, 0.96, 0.96}
+\definecolor{gray-pp}{rgb}{0.13, 0.6, 0.82}
+
+\usepackage{colortbl}
+\usepackage{listings}
+\lstset{
+	basicstyle=\footnotesize\ttfamily,
+	columns=fullflexible,
+	frame=single,
+	breaklines=true,
+	numbers=left, stepnumber=2, numbersep=5pt,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{gray-pp},
+	stringstyle=\color{mauve},
+	backgroundcolor = \color{whitesmoke},
+	breakatwhitespace=true,
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}
+}
+
+
+
+\cfoot{-~\thepage \textcolor{light-gray}{~| Strona~-}}
+
+\hyphenpenalty=10000		% nie dziel wyrazów zbyt często
+\clubpenalty=10000			% kara za sierotki
+\widowpenalty=10000			% nie pozostawiaj wdów
+\brokenpenalty=10000		% nie dziel wyrazów między stronami
+\exhyphenpenalty=999999		% nie dziel słów z myślnikiem
+\righthyphenmin=3			% dziel minimum 3 litery
+
+\tolerance=4500
+\pretolerance=250
+\hfuzz=1.5pt
+\hbadness=1450
+
+\sloppy						% umacnia pozycję prawego marginesu
+
+\setlength{\textwidth}{\paperwidth}
+\addtolength{\textwidth}{-5cm}
+\setlength{\textheight}{\paperheight}
+\addtolength{\textheight}{-5cm}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\evensidemargin}{0cm}
+\topmargin -1.25cm
+\footskip 1.4cm
+
+\linespread{1.3}
+
+\begin{document}
+	\raggedbottom 
+	%\input{hypernation}
+	%\input{title-page}
+	\setlength\extrarowheight{2pt}
+	\begin{table}[ht]
+		\centering
+		%\resizebox{\textwidth}{!}{%
+			\begin{tabular}{|p{5cm}|p{7cm}|p{2cm}|}
+				\hline
+				%\rowcolor{gray}
+				%\multicolumn{3}{|c|}{\textcolor[rgb]{1,1,1}{Scalenie trzech kolumn}}\\
+				
+			\multicolumn{2}{|c|}{\cellcolor{gray-pp}\textcolor[rgb]{1,1,1}{Politechnika Poznańska}}  & \multicolumn{1}{c|}{\multirow{3}{*}{\resizebox{15mm}{!}{\includegraphics{PP_znak_konturowy_CMYK.pdf}}}}\\
+				\multicolumn{2}{|c|}{\cellcolor{gray-pp}\textcolor[rgb]{1,1,1}{Wydział Automatyki, Robotyki i Elektrotechniki}} & \\ 
+				\multicolumn{2}{|c|}{\cellcolor{gray-pp}\textcolor[rgb]{1,1,1}{Instytut Robotyki i Inteligencji Maszynowej}} & \\ 
+				\hline 
+				\multicolumn{1}{|c|}{Dz>AiR>Sem5} & \multicolumn{1}{c|}{Napędy przekształtnikowe (NP)} & \multicolumn{1}{c|}{2025/26 (s.zim.)} \\
+				\hline
+				\textbf{Skład osobowy:} \par Zuzanna Andrzejak 159522 \par Jan Andrzejewski 159512 \par Mateusz Banaszak 159416 \par Piotr Bednarek 159701 & 
+				%\textbf{Identyfikacja parametrów modelu obwodowego silnika prądu stałego} 
+				& Data wyk.:\par 08.01.2026\\
+				\hline
+				Grupa 1  & Ćwiczenie 3 & Zajęcia 3 \\
+				\hline
+			\end{tabular}%
+			%}
+	\end{table}	
+	\setlength\extrarowheight{0pt}
+	\vspace{1.5cm}
+	\tableofcontents
+	\newpage
+	
+	\section{Wprowadzenie}
+	W poprzednim ćwiczeniu laboratoryjnym zdefiniowano model obwodowy obcowzbudnego silnika prądu stałego z komutatorem, przyjmując określone parametry w celu zrealizowania uproszczonego modelu. Celem kolejnego ćwiczenia było eksperymentalne wyznaczenie tych parametrów na podstawie pomiarów przeprowadzonych na rzeczywistym, identyfikowanym obiekcie \cite{ekurs}. Podczas analizy uwzględniono wektor parametrów modelu w postaci:
+	\begin{equation}
+		P^T = \left[ R_a,\; L_a,\; k_{\Phi},\; J_r,\; b_1 \right]
+		\label{eq:parametry}
+	\end{equation}
+	
+	
+	Pomiary zrealizowano w sali C3 w budynku A22b, wyposażonej w stanowisko laboratoryjne z układem silnika umożliwiającym wymuszenie zadanej prędkości obrotowej wału. Stanowisko pomiarowe obejmowało ponadto multimetry, laboratoryjny zasilacz z ograniczeniem prądu oraz oscyloskop. W trakcie ćwiczenia wykorzystano również środowisko symulacyjne \texttt{MATLAB} do analizy zarejestrowanych danych pomiarowych oraz sporządzenia odpowiednich charakterystyk i wykresów.
+
+	\vspace{1cm}
+	
+	
+	\vspace{1.5cm}
+	
+	\begin{thebibliography}{9}
+		\bibitem{ekurs}
+		Materiały do ćwiczenia laboratoryjnego dostępne na platformie eKursy, Politechnika Poznańska, \texttt{https://ekursy.put.poznan.pl/mod/folder/view.php?id=3022726}
+		\bibitem{zawirski}
+		K. Zawirski, J. Deskur, T. Kaczmarek, \textit{Automatyka napędu elektrycznego}, Wydawnictwo Politechniki Poznańskiej, 2012
+		\bibitem{sidorowicz}
+		J. Sidorowicz, \textit{Napęd elektryczny i jego sterowanie}, Oficyna Wydawicza Politechniki Warszawskiej, 1997
+	\end{thebibliography}
+	
+	
+	
+	
+\end{document}
