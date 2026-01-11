@@ -8,7 +8,13 @@ if ~exist('../pdf', 'dir'), mkdir('../pdf'); end
 data_obco = readtable('../dane/charakterystyka-hamowania-obcowzbudny.csv');
 f1 = figure('Name', 'Hamowanie Obco', 'NumberTitle', 'off', 'Position', [100, 100, 600, 450]);
 hold on; grid on;
-plot(data_obco.omega_r, data_obco.Ia, 'bs', 'MarkerFaceColor', 'b', 'DisplayName', 'Pomiar');
+plot(data_obco.omega_r, data_obco.Ia, 'bs', 'MarkerFaceColor', 'b', 'DisplayName', 'Dane pomiarowe');
+
+% Regresja liniowa
+coeffs = polyfit(data_obco.omega_r, data_obco.Ia, 1);
+x_fit = linspace(min(data_obco.omega_r), max(data_obco.omega_r), 100);
+plot(x_fit, polyval(coeffs, x_fit), 'b--', 'LineWidth', 1.5, 'DisplayName', sprintf('Regresja: y = %.5fx + %.2f', coeffs(1), coeffs(2)));
+
 title('Hamowanie obcowzbudne: I_a = f(\omega_r)', 'FontSize', 14);
 xlabel('\omega_r [rad/s]', 'FontSize', 12); ylabel('I_a [A]', 'FontSize', 12);
 set(gca, 'FontSize', 11);
