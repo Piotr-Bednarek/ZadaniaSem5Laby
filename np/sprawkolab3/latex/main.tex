@@ -127,11 +127,8 @@
 	\newpage
 	
 	\section{Wprowadzenie}
-	W poprzednim ćwiczeniu laboratoryjnym zdefiniowano model obwodowy obcowzbudnego silnika prądu stałego z komutatorem, przyjmując określone parametry w celu zrealizowania uproszczonego modelu. Celem kolejnego ćwiczenia było eksperymentalne wyznaczenie tych parametrów na podstawie pomiarów przeprowadzonych na rzeczywistym, identyfikowanym obiekcie \cite{ekurs}. Podczas analizy uwzględniono wektor parametrów modelu w postaci:
-	\begin{equation}
-		P^T = \left[ R_a,\; L_a,\; k_{\Phi},\; J_r,\; b_1 \right]
-		\label{eq:parametry}
-	\end{equation}
+	Celem zadania jest zbadanie charakterystyk statycznych (sterowania, mechanicznej oraz hamowania dynamicznego) silnika prądu stałego, w tym zbadanie zgodności wpływu parametrów silnika (np. rezystancja twornika) na te charakterystyki.
+
 	
 	
 	Pomiary zrealizowano w sali C3 w budynku A22b, wyposażonej w stanowisko laboratoryjne z układem silnika umożliwiającym wymuszenie zadanej prędkości obrotowej wału. Stanowisko pomiarowe obejmowało ponadto multimetry, laboratoryjny zasilacz z ograniczeniem prądu oraz oscyloskop. W trakcie ćwiczenia wykorzystano również środowisko symulacyjne \texttt{MATLAB} do analizy zarejestrowanych danych pomiarowych oraz sporządzenia odpowiednich charakterystyk i wykresów.
@@ -142,15 +139,16 @@
 
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.5\linewidth]{../wykresy/pdf/char_sterowania_1.pdf}
+		\includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_sterowania_zbiorcza.pdf}
 		\caption{}
 	\end{figure}
 
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.5\linewidth]{../wykresy/pdf/char_sterowania_2.pdf}
-		\caption{}
-	\end{figure}
+	Zgodnie z zalozeniami teoretycznymi charakterystyki sterowanie są wzglednie równoległe. Rozbiezność na poziomie:
+	\[
+	\frac{5,16-5,05}{5,16}\cdot 100\% \approx 2,9\% 
+	\]
+
+	jest akceptowalna ze wzgledu na błedy toru pomiarowego.
 
 
 	\vspace{1cm}
@@ -159,13 +157,13 @@
 
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.5\linewidth]{../wykresy/pdf/char_mechaniczna_150V.pdf}
+		\includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_mechaniczna_150V.pdf}
 		\caption{}
 	\end{figure}
 
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.5\linewidth]{../wykresy/pdf/char_mechaniczna_200V.pdf}
+		\includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_mechaniczna_200V.pdf}
 		\caption{}
 	\end{figure}
 
@@ -174,9 +172,21 @@
 
 	\section{Hamowanie dynamiczne obcowzbudne}
 
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_hamowania_obco.pdf}
+		\caption{}
+	\end{figure}
+
 	\vspace{1cm}
 
 	\section{Hamowanie dynamiczne samowzbudne}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_hamowania_samo.pdf}
+		\caption{}
+	\end{figure}
 
 	\vspace{1cm}
 	
