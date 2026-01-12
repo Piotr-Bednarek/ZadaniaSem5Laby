@@ -63,6 +63,83 @@
 
 \newpage
 
+\section{Ćwiczenie 10-11}
+\subsection*{Linearyzacja systemu nieliniowego wzgledem punktu pracy}
+
+
+Rozważany jest obiekt nieliniowy.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{img/wachadlorysunek.png}
+    \caption{Schemat wachadła}
+\end{figure}
+
+Przyjmując $x_1=\theta$ i $x_2=\dot{\theta}$
+
+\[
+\dot{x}_1=x_2
+\]
+\[
+\dot{x}_2=\frac{1}{J}u-\frac{d}{J}x_2-\frac{mgl}{J}sin(x_1)
+\]
+
+\subsubsection*{Linearyzacja wzgledem punktu $x_0=[0,0]$ $u=0$}
+
+Przeprowadzono linearyzacje układu wzgledem punktu $x_0=[0,0]$ i $u=0$, ostatecznie otrzymując postać:
+\[
+\dot{\tilde{x}}=\begin{bmatrix}
+    0 & 1\\
+    -\frac{mgl}{J} & -\frac{d}{J}
+\end{bmatrix}\tilde{x}+\begin{bmatrix}
+    0\\
+    \frac{1}{J}
+\end{bmatrix}\tilde{u}
+\]
+
+gdzie $\dot{\tilde{x}}$, $\tilde{x}$, $\tilde{u}$ są równe $\dot{x}$, $x$ i $u$
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{img/predkoscwachadlo.png}
+    \caption{placeholder}
+\end{figure}
+
+jeszcze jeden wykres dla wiekszego u 
+
+Z przebiegów można wyciagnąc jednoznaczny wniosek. Linearyzacja wokoł punktu pracy dobrze opisuje model tylko w jego otoczeniu. Przyłożywszy sterowanie 
+
+Zlinearyzowany model jest sterowanly ponieważ rząd macierzy Kalmana jest równy rzedowi macierzy A zlineryzowanego systemu 
+\[
+rank(A)=rank([B,AB])=2
+\]
+
+Oprocz tego że na sterowalnosc układu wskazuje rząd macierzy Kalmana, wskazuje na to postac sterowalna macierzy A.
+
+\subsubsection*{Linearyzacja wzgledem punktu $x_0=[\frac{pi}{4},0]$ $u=45\sqrt{2}$}
+
+Równania stanu
+
+\[
+\dot{\tilde{x}}=\begin{bmatrix}
+    0 & 1\\
+    -\frac{mgl}{J} & -\frac{d}{J}
+\end{bmatrix}\tilde{x}+\begin{bmatrix}
+    0\\
+    \frac{1}{J}
+\end{bmatrix}\tilde{u}
+\]
+
+
+
+
+
+
+
+
+
+
+
 
 
 
