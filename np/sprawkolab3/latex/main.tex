@@ -94,170 +94,170 @@
 \linespread{1.3}
 
 \begin{document}
-\raggedbottom
-%\input{hypernation}
-%\input{title-page}
-\setlength\extrarowheight{2pt}
-\begin{table}[ht]
-    \centering
-    %\resizebox{\textwidth}{!}{%
-    \begin{tabular}{|p{5cm}|p{7cm}|p{2cm}|}
-        \hline
-        %\rowcolor{gray}
-        %\multicolumn{3}{|c|}{\textcolor[rgb]{1,1,1}{Scalenie trzech kolumn}}\\
+	\raggedbottom 
+	%\input{hypernation}
+	%\input{title-page}
+	\setlength\extrarowheight{2pt}
+	\begin{table}[ht]
+		\centering
+		%\resizebox{\textwidth}{!}{%
+			\begin{tabular}{|p{5cm}|p{7cm}|p{2cm}|}
+				\hline
+				%\rowcolor{gray}
+				%\multicolumn{3}{|c|}{\textcolor[rgb]{1,1,1}{Scalenie trzech kolumn}}\\
+				
+			\multicolumn{2}{|c|}{\cellcolor{gray-pp}\textcolor[rgb]{1,1,1}{Politechnika Poznańska}}  & \multicolumn{1}{c|}{\multirow{3}{*}{\resizebox{15mm}{!}{\includegraphics{PP_znak_konturowy_CMYK.pdf}}}}\\
+				\multicolumn{2}{|c|}{\cellcolor{gray-pp}\textcolor[rgb]{1,1,1}{Wydział Automatyki, Robotyki i Elektrotechniki}} & \\ 
+				\multicolumn{2}{|c|}{\cellcolor{gray-pp}\textcolor[rgb]{1,1,1}{Instytut Robotyki i Inteligencji Maszynowej}} & \\ 
+				\hline 
+				\multicolumn{1}{|c|}{Dz>AiR>Sem5} & \multicolumn{1}{c|}{Napędy przekształtnikowe (NP)} & \multicolumn{1}{c|}{2025/26 (s.zim.)} \\
+				\hline
+				\textbf{Skład osobowy:} \par Zuzanna Andrzejak 159522 \par Jan Andrzejewski 159512 \par Mateusz Banaszak 159416 \par Piotr Bednarek 159701 & 
+				\textbf{Stany pracy silnika obcowzbudnego prądu stałego} 
+				& Data wyk.:\par 08.01.2026\\
+				\hline
+				Grupa 1  & Ćwiczenie 3 & Zajęcia 3 \\
+				\hline
+			\end{tabular}%
+			%}
+	\end{table}	
+	\setlength\extrarowheight{0pt}
+	\vspace{1.5cm}
+	\tableofcontents
+	\newpage
+	
+	\section{Wprowadzenie}
+	Celem zadania jest zbadanie charakterystyk statycznych (sterowania, mechanicznej oraz hamowania dynamicznego) silnika prądu stałego, w tym zbadanie zgodności wpływu parametrów silnika (np. rezystancja twornika) na te charakterystyki.
 
-        \multicolumn{2}{|c|}{\cellcolor{gray-pp}\textcolor[rgb]{1,1,1}{Politechnika Poznańska}}                                                    & \multicolumn{1}{c|}{\multirow{3}{*}{\resizebox{15mm}{!}{\includegraphics{PP_znak_konturowy_CMYK.pdf}}}}                                         \\
-        \multicolumn{2}{|c|}{\cellcolor{gray-pp}\textcolor[rgb]{1,1,1}{Wydział Automatyki, Robotyki i Elektrotechniki}}                            &                                                                                                                                                 \\
-        \multicolumn{2}{|c|}{\cellcolor{gray-pp}\textcolor[rgb]{1,1,1}{Instytut Robotyki i Inteligencji Maszynowej}}                               &                                                                                                                                                 \\
-        \hline
-        \multicolumn{1}{|c|}{Dz>AiR>Sem5}                                                                                                          & \multicolumn{1}{c|}{Napędy przekształtnikowe (NP)}                                                      & \multicolumn{1}{c|}{2025/26 (s.zim.)} \\
-        \hline
-        \textbf{Skład osobowy:} \par Zuzanna Andrzejak 159522 \par Jan Andrzejewski 159512 \par Mateusz Banaszak 159416 \par Piotr Bednarek 159701 &
-        \textbf{Stany pracy silnika obcowzbudnego prądu stałego}
-                                                                                                                                                   & Data wyk.:\par 08.01.2026                                                                                                                       \\
-        \hline
-        Grupa 1                                                                                                                                    & Ćwiczenie 3                                                                                             & Zajęcia 3                             \\
-        \hline
-    \end{tabular}%
-    %}
-\end{table}
-\setlength\extrarowheight{0pt}
-\vspace{1.5cm}
-\tableofcontents
-\newpage
+	
+	
+	Pomiary zrealizowano w sali C3 w budynku A22b, wyposażonej w stanowisko laboratoryjne z układem silnika umożliwiającym wymuszenie zadanej prędkości obrotowej wału. Stanowisko pomiarowe obejmowało ponadto multimetry, laboratoryjny zasilacz z ograniczeniem prądu oraz oscyloskop. W trakcie ćwiczenia wykorzystano również środowisko symulacyjne \texttt{MATLAB} do analizy zarejestrowanych danych pomiarowych oraz sporządzenia odpowiednich charakterystyk i wykresów.
 
-\section{Wprowadzenie}
-Celem zadania jest zbadanie charakterystyk statycznych (sterowania, mechanicznej oraz hamowania dynamicznego) silnika prądu stałego, w tym zbadanie zgodności wpływu parametrów silnika (np. rezystancja twornika) na te charakterystyki.
+	\vspace{1cm}
 
+	\section{Charakterystyka sterowania}
 
-
-Pomiary zrealizowano w sali C3 w budynku A22b, wyposażonej w stanowisko laboratoryjne z układem silnika umożliwiającym wymuszenie zadanej prędkości obrotowej wału. Stanowisko pomiarowe obejmowało ponadto multimetry, laboratoryjny zasilacz z ograniczeniem prądu oraz oscyloskop. W trakcie ćwiczenia wykorzystano również środowisko symulacyjne \texttt{MATLAB} do analizy zarejestrowanych danych pomiarowych oraz sporządzenia odpowiednich charakterystyk i wykresów.
-
-\vspace{1cm}
-
-\section{Charakterystyka sterowania}
-
-\subsection{Metodyka pomiarów}
-Charakterystyka sterowania silnika to zależność prędkości obrotowej od napięcia sterującego w stanie statycznym. Pomiary przeprowadzono zgodnie z instrukcją prowadzącego na maksymalnym ograniczeniu prądowym, wyznaczonym zadajnikiem P2. W celu porównania wyznaczono charakterystykę z zerowym i z niezerowym momentem obciążenia. Moment obciążony realizowany jest za pomocą zewnętrznego napędu ALSPA. Zadajnik P1 ustawiono w pozycji 0, a P2 na stałą wartość obciążenia.\\
-W obu przypadkach kolejne punkty mierzono, zmieniając napięcie sterujące.
-Wzór na prędkość obrotową silnika, co wiadomo z poprzednich jednostek laboratoryjnych można zapisać:\\
-\[
+    \subsection{Metodyka pomiarów}
+    Charakterystyka sterowania silnika to zależność prędkości obrotowej od napięcia sterującego w stanie statycznym. Pomiary przeprowadzono zgodnie z instrukcją prowadzącego na maksymalnym ograniczeniu prądowym, wyznaczonym zadajnikiem P2. W celu porównania wyznaczono charakterystykę z zerowym i z niezerowym momentem obciążenia. Moment obciążony realizowany jest za pomocą zewnętrznego napędu ALSPA. Zadajnik P1 ustawiono w pozycji 0, a P2 na stałą wartość obciążenia.\\
+    W obu przypadkach kolejne punkty mierzono, zmieniając napięcie sterujące. 
+    Wzór na prędkość obrotową silnika, co wiadomo z poprzednich jednostek laboratoryjnych można zapisać:\\
+    \[
     \omega_r= \frac{U_a- R_aI_a}{k_{\phi}}
-\]
-gdzie $U_a$ to napięcie sterujące, $R_a$ rezystancja twornika, $I_a$ prąd twornika, a $k_{\phi}$ stałe wzmocnienie silnika.\\\\
-Wzór na moment obciążenia:\\
-\[
+    \]
+    gdzie $U_a$ to napięcie sterujące, $R_a$ rezystancja twornika, $I_a$ prąd twornika, a $k_{\phi}$ stałe wzmocnienie silnika.\\\\
+    Wzór na moment obciążenia:\\
+    \[
     T_e= k_{\phi}i_a
-\]
-\[
+    \]
+    \[
     i_a= \frac{T_e}{k_{\phi}}
-\]
-Żeby zobaczyć wpływ obciążenia na prędkość obrotową należy przekształcić wzór na prędkość, a następnie podstawić do niego moment obciążenia:
-\[
+    \]
+    Żeby zobaczyć wpływ obciążenia na prędkość obrotową należy przekształcić wzór na prędkość, a następnie podstawić do niego moment obciążenia:
+    \[
     \omega_r= \frac{U_a}{k_{\phi}}- \frac{R_ai_a}{k_{\phi}}
-\]
-\[
+    \]
+    \[
     \omega_r= \frac{U_a}{k_{\phi}}- \frac{R_aT_e}{{k_{\phi}}^{2}}
-\]
-\vspace{0.5cm}
+    \]
+    \vspace{0.5cm}
+    
+    Z tej zależności można zaobserwować, że kształt charakterystyki sterującej bez i z momentem obciążenia nie zmieni się. Powinny być to przesunięte względem siebie równoległe proste. Charakterystyka z niezerowym obciążeniem będzie poniżej, ze względu na niższe ( o stałą wartość) prędkości dla tych samych napięć twornika.
+    
+    \subsection{Pomiary i opracowanie wyników}
+    
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_sterowania_zbiorcza.pdf}
+		\caption{}
+	\end{figure}
 
-Z tej zależności można zaobserwować, że kształt charakterystyki sterującej bez i z momentem obciążenia nie zmieni się. Powinny być to przesunięte względem siebie równoległe proste. Charakterystyka z niezerowym obciążeniem będzie poniżej, ze względu na niższe ( o stałą wartość) prędkości dla tych samych napięć twornika.
+	Zgodnie z założeniami teoretycznymi charakterystyki sterowania są względnie równoległe. Rozbieżność policzymy porównując współczynniki kierunkowe prsotych, licząć błąd względny. Otrzymujemy rozbieżność na poziomie:\\
+	\[
+	\frac{5,16-5,05}{5,16}\cdot 100\% \approx 2,13\% 
+	\]
 
-\subsection{Pomiary i opracowanie wyników}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_sterowania_zbiorcza.pdf}
-    \caption{}
-\end{figure}
-
-Zgodnie z założeniami teoretycznymi charakterystyki sterowania są względnie równoległe. Rozbieżność policzymy porównując współczynniki kierunkowe prsotych, licząć błąd względny. Otrzymujemy rozbieżność na poziomie:\\
-\[
-    \frac{5,16-5,05}{5,16}\cdot 100\% \approx 2,13\%
-\]
-
-Jest to akceptowalne ze względu na błędy toru pomiarowego.
-
-
-\vspace{1cm}
-
-\section{Charakterystyka mechaniczna}
-
-\subsection{Metodyka pomiarów}
-Charakterystyka mechaniczna to zależność prędkości obrotowej od momentu hamującego $T_L$ przy stałej wartości napięcia uzwojeń twornika. Przeprowadzono pomiary dla dwóch wartości $U_a$ równych 150V i 200V. Dokonano tego, zmieniając obciążenie wprowadzone przez ALSPA pozostawiając napięcie twornika na stałym poziomie, a ograniczenie prądowe na maksymalnej, stałej wartości. Oczekujemy, że otrzymane przez nas proste po przeprowadzeniu regresji liniowej będą podobnie jak w poprzednim przypadku równoległe, ze względu na to, że różne napięcie w obu próbach wpłynie jedynie na przesunięcie prostej wyżej lub niżej.
-Wzór na prędkość obrotową pozostaje ten sam co przy charakterystyce sterowania z niezerowym momentem obciążenia, jednak zmieniła się zmienna, na której pracujemy.
+	Jest to akceptowalne ze względu na błędy toru pomiarowego.
 
 
-\subsection{Pomiary i opracowanie wyników}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_mechaniczna_150V.pdf}
-    \caption{}
-\end{figure}
+	\vspace{1cm}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_mechaniczna_200V.pdf}
-    \caption{}
-\end{figure}
+	\section{Charakterystyka mechaniczna}
+    
+    \subsection{Metodyka pomiarów}
+    Charakterystyka mechaniczna to zależność prędkości obrotowej od momentu hamującego $T_L$ przy stałej wartości napięcia uzwojeń twornika. Przeprowadzono pomiary dla dwóch wartości $U_a$ równych 150V i 200V. Dokonano tego, zmieniając obciążenie wprowadzone przez ALSPA pozostawiając napięcie twornika na stałym poziomie, a ograniczenie prądowe na maksymalnej, stałej wartości. Oczekujemy, że otrzymane przez nas proste po przeprowadzeniu regresji liniowej będą podobnie jak w poprzednim przypadku równoległe, ze względu na to, że różne napięcie w obu próbach wpłynie jedynie na przesunięcie prostej wyżej lub niżej.
+    Wzór na prędkość obrotową pozostaje ten sam co przy charakterystyce sterowania z niezerowym momentem obciążenia, jednak zmieniła się zmienna, na której pracujemy. 
+
+    
+    \subsection{Pomiary i opracowanie wyników}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_mechaniczna_150V.pdf}
+		\caption{}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_mechaniczna_200V.pdf}
+		\caption{}
+	\end{figure}
 
 
-\vspace{1cm}
+	\vspace{1cm}
 
-Tak jak widzimy z powyższych wykresów oraz wypisanych otrzymanych po regresji liniowej wzorów, proste są idealnie równoległe do siebie co zgadza się z założeniami teoretycznymi.
-\section{Hamowanie dynamiczne obcowzbudne}
-\subsection{Metodyka pomiarów}
-Hamowanie to polega na pracy maszyny jako prądnicy, w której obwód twornika jest odłączony od źródła napięcia ($U_a = 0$) i zamknięty przez rezystancję hamowania $R_{ad}$, natomiast obwód wzbudzenia zasilany jest w sposób ciągły. Dzięki utrzymaniu stałej wartości strumienia magnetycznego $k\phi$, wytworzony moment hamujący $T_H$ oraz prąd twornika są wprost proporcjonalne do prędkości kątowej wirnika. Zależność tę opisuje równanie:\\
-\[
+    Tak jak widzimy z powyższych wykresów oraz wypisanych otrzymanych po regresji liniowej wzorów, proste są idealnie równoległe do siebie co zgadza się z założeniami teoretycznymi.
+	\section{Hamowanie dynamiczne obcowzbudne}
+    \subsection{Metodyka pomiarów}
+    Hamowanie to polega na pracy maszyny jako prądnicy, w której obwód twornika jest odłączony od źródła napięcia ($U_a = 0$) i zamknięty przez rezystancję hamowania $R_{ad}$, natomiast obwód wzbudzenia zasilany jest w sposób ciągły. Dzięki utrzymaniu stałej wartości strumienia magnetycznego $k\phi$, wytworzony moment hamujący $T_H$ oraz prąd twornika są wprost proporcjonalne do prędkości kątowej wirnika. Zależność tę opisuje równanie:\\
+    \[
     T_{H}= i_a\cdot k_{\phi}
-\]
+    \]
+   
+    Pomiary rozpoczęto od odłączenia zasilania twornika z przekształtnika DML przy jednoczesnym zachowaniu zasilania obwodu wzbudzenia, co było kluczowe dla utrzymania stałej wartości strumienia magnetycznego $k\phi$2. Zaciski twornika połączono z zewnętrznym rezystorem dodatkowym $R_{ad}$ o wartości $40\Omega$.
+    
+    
+    \subsection{Pomiary i opracowanie wyników}
+    
+    \begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_hamowania_obco.pdf}
+		\caption{}
+	\end{figure}
 
-Pomiary rozpoczęto od odłączenia zasilania twornika z przekształtnika DML przy jednoczesnym zachowaniu zasilania obwodu wzbudzenia, co było kluczowe dla utrzymania stałej wartości strumienia magnetycznego $k\phi$2. Zaciski twornika połączono z zewnętrznym rezystorem dodatkowym $R_{ad}$ o wartości $40\Omega$.
+	\vspace{1cm}
 
-
-\subsection{Pomiary i opracowanie wyników}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_hamowania_obco.pdf}
-    \caption{}
-\end{figure}
-
-\vspace{1cm}
-
-\section{Hamowanie dynamiczne samowzbudne}
-
-\subsection{Metodyka pomiarów}
-Hamowanie samowzbudne polega na pracy maszyny jako prądnicy obciążonej rezystancją $R_{ad}$, w której wzbudzenie następuje bez zewnętrznego źródła zasilania dzięki wykorzystaniu strumienia szczątkowego wynikającego z histerezy magnetycznej. Proces ten opiera się na dodatnim sprzężeniu zwrotnym, gdzie prąd płynący przez uzwojenie wzbudzenia zwiększa strumień, co z kolei indukuje wyższe napięcie w tworniku.
-Przeprowadzenie pomiarów rozpoczęto od odłączenia zasilania twornika z przekształtnika DML i bezpośredniego przyłączenia uzwojenia wzbudzenia wraz z rezystorem obciążającym $40\Omega$ do zacisków maszyny. Wykorzystując układ ALSPA jako napęd pomocniczy pracujący w trybie regulacji wektorowej, stopniowo zwiększano prędkość obrotową zespołu, notując wartości prądu i mocy elektromagnetycznej, która jest w całości rozpraszana w formie ciepła na rezystancjach obwodu. Wyznaczono zależność momentu hamującego od prędkości obrotowej. W celu obliczenia go można użyć wzoru:\\
-\[
+	\section{Hamowanie dynamiczne samowzbudne}
+    
+    \subsection{Metodyka pomiarów}
+    Hamowanie samowzbudne polega na pracy maszyny jako prądnicy obciążonej rezystancją $R_{ad}$, w której wzbudzenie następuje bez zewnętrznego źródła zasilania dzięki wykorzystaniu strumienia szczątkowego wynikającego z histerezy magnetycznej. Proces ten opiera się na dodatnim sprzężeniu zwrotnym, gdzie prąd płynący przez uzwojenie wzbudzenia zwiększa strumień, co z kolei indukuje wyższe napięcie w tworniku. 
+    Przeprowadzenie pomiarów rozpoczęto od odłączenia zasilania twornika z przekształtnika DML i bezpośredniego przyłączenia uzwojenia wzbudzenia wraz z rezystorem obciążającym $40\Omega$ do zacisków maszyny. Wykorzystując układ ALSPA jako napęd pomocniczy pracujący w trybie regulacji wektorowej, stopniowo zwiększano prędkość obrotową zespołu, notując wartości prądu i mocy elektromagnetycznej, która jest w całości rozpraszana w formie ciepła na rezystancjach obwodu. Wyznaczono zależność momentu hamującego od prędkości obrotowej. W celu obliczenia go można użyć wzoru:\\
+    \[
     T_{H}= \frac{P}{\omega_r}
-\]
+    \]
+    
+    Tym razem nie wolno korzystać z zależności używanej przy hamowaniu obcowzbudnym, ponieważ w hamowaniu samowzbudnym prąd wzbudzenia jest generowany przez samą maszynę i zmienia się wraz z jej prędkością obrotową oraz napięciem indukowanym. Ponieważ strumień $k\phi$ jest bezpośrednio zależny od tego prądu, ulega on ciągłym zmianom zgodnie z nieliniową charakterystyką magnesowania obwodu magnetycznego.
+	\subsection{Pomiary i opracowanie wyników}
+    
+    \begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_hamowania_samo.pdf}
+		\caption{}
+	\end{figure}
 
-Tym razem nie wolno korzystać z zależności używanej przy hamowaniu obcowzbudnym, ponieważ w hamowaniu samowzbudnym prąd wzbudzenia jest generowany przez samą maszynę i zmienia się wraz z jej prędkością obrotową oraz napięciem indukowanym. Ponieważ strumień $k\phi$ jest bezpośrednio zależny od tego prądu, ulega on ciągłym zmianom zgodnie z nieliniową charakterystyką magnesowania obwodu magnetycznego.
-\subsection{Pomiary i opracowanie wyników}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_hamowania_samo.pdf}
-    \caption{}
-\end{figure}
-
-\vspace{1cm}
-
-
-\vspace{1.5cm}
-
-\begin{thebibliography}{9}
-    \bibitem{ekurs}
-    Materiały do ćwiczenia laboratoryjnego dostępne na platformie eKursy, Politechnika Poznańska, \texttt{https://ekursy.put.poznan.pl/mod/folder/view.php?id=3022726}
-    \bibitem{zawirski}
-    K. Zawirski, J. Deskur, T. Kaczmarek, \textit{Automatyka napędu elektrycznego}, Wydawnictwo Politechniki Poznańskiej, 2012
-    \bibitem{sidorowicz}
-    J. Sidorowicz, \textit{Napęd elektryczny i jego sterowanie}, Oficyna Wydawicza Politechniki Warszawskiej, 1997
-\end{thebibliography}
-
-
-
-
+	\vspace{1cm}
+	
+	
+	\vspace{1.5cm}
+	
+	\begin{thebibliography}{9}
+		\bibitem{ekurs}
+		Materiały do ćwiczenia laboratoryjnego dostępne na platformie eKursy, Politechnika Poznańska, \texttt{https://ekursy.put.poznan.pl/mod/folder/view.php?id=3022726}
+		\bibitem{zawirski}
+		K. Zawirski, J. Deskur, T. Kaczmarek, \textit{Automatyka napędu elektrycznego}, Wydawnictwo Politechniki Poznańskiej, 2012
+		\bibitem{sidorowicz}
+		J. Sidorowicz, \textit{Napęd elektryczny i jego sterowanie}, Oficyna Wydawicza Politechniki Warszawskiej, 1997
+	\end{thebibliography}
+	
+	
+	
+	
 \end{document}
