@@ -9,6 +9,7 @@ k_phi = 1.8;
 
 %% Ua = 150V
 data150 = readtable('../dane/charakterystyka-mechaniczna-150V.csv');
+data150.omega_r = data150.omega_r * pi / 30;  % RPM -> rad/s
 % Przeliczenie prądu na moment elektromagnetyczny Te = k_phi * Ia
 data150.Te = k_phi * data150.Ia;
 
@@ -28,6 +29,7 @@ exportgraphics(f1, '../pdf/char_mechaniczna_150V.pdf', 'ContentType', 'vector');
 
 %% Ua = 200V
 data200 = readtable('../dane/charakterystyka-mechaniczna-200V.csv');
+data200.omega_r = data200.omega_r * pi / 30;  % RPM -> rad/s
 % Przeliczenie prądu na moment elektromagnetyczny Te = k_phi * Ia
 data200.Te = k_phi * data200.Ia;
 

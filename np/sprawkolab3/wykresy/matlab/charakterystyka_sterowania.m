@@ -8,6 +8,10 @@ if ~exist('../pdf', 'dir'), mkdir('../pdf'); end
 data1 = readtable('../dane/charakterystyka-sterowania-1.csv');
 data2 = readtable('../dane/charakterystyka-sterowania-2.csv');
 
+% Przeliczenie omega_r z RPM na rad/s
+data1.omega_r = data1.omega_r * pi / 30;
+data2.omega_r = data2.omega_r * pi / 30;
+
 %% Wykres zbiorczy
 f = figure('Name', 'Charakterystyki sterowania', 'NumberTitle', 'off', 'Position', [100, 100, 800, 600]);
 hold on; grid on;
