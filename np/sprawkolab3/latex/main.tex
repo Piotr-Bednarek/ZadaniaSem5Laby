@@ -137,24 +137,58 @@
 
 	\section{Charakterystyka sterowania}
 
+    \subsection{Metodyka pomiarów}
+    Charakterystyka sterowania silnika to zależność prędkości obrotowej od napięcia sterującego w stanie statycznym. Pomiary przeprowadzono zgodnie z instrukcją prowadzącego na maksymalnym ograniczeniu prądowym, wyznaczonym zadajnikiem P2. W celu porównania wyznaczono charakterystykę z zerowym i z niezerowym momentem obciążenia. Moment obciążony realizowany jest za pomocą zewnętrznego napędu ALSPA. Zadajnik P1 ustawiono w pozycji 0, a P2 na stałą wartość obciążenia.\\
+    W obu przypadkach kolejne punkty mierzono, zmieniając napięcie sterujące. 
+    Wzór na prędkość obrotową silnika, co wiadomo z poprzednich jednostek laboratoryjnych można zapisać:\\
+    \[
+    \omega_r= \frac{U_a- R_aI_a}{k_{\phi}}
+    \]
+    gdzie $U_a$ to napięcie sterujące, $R_a$ rezystancja twornika, $I_a$ prąd twornika, a $k_{\phi}$ stałe wzmocnienie silnika.\\\\
+    Wzór na moment obciążenia:\\
+    \[
+    T_e= k_{\phi}i_a
+    \]
+    \[
+    i_a= \frac{T_e}{k_{\phi}}
+    \]
+    Żeby zobaczyć wpływ obciążenia na prędkość obrotową należy przekształcić wzór na prędkość, a następnie podstawić do niego moment obciążenia:
+    \[
+    \omega_r= \frac{U_a}{k_{\phi}}- \frac{R_ai_a}{k_{\phi}}
+    \]
+    \[
+    \omega_r= \frac{U_a}{k_{\phi}}- \frac{R_aT_e}{{k_{\phi}}^{2}}
+    \]
+    \vspace{0.5cm}
+    
+    Z tej zależności można zaobserwować, że kształt charakterystyki sterującej bez i z momentem obciążenia nie zmieni się. Powinny być to przesunięte względem siebie równoległe proste. Charakterystyka z niezerowym obciążeniem będzie poniżej, ze względu na niższe ( o stałą wartość) prędkości dla tych samych napięć twornika.
+    
+    \subsection{Pomiary i opracowanie wyników}
+    
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_sterowania_zbiorcza.pdf}
 		\caption{}
 	\end{figure}
 
-	Zgodnie z zalozeniami teoretycznymi charakterystyki sterowanie są wzglednie równoległe. Rozbiezność na poziomie:
+	Zgodnie z założeniami teoretycznymi charakterystyki sterowania są względnie równoległe. Rozbieżność policzymy porównując współczynniki kierunkowe prsotych, licząć błąd względny. Otrzymujemy rozbieżność na poziomie:\\
 	\[
-	\frac{5,16-5,05}{5,16}\cdot 100\% \approx 2,9\% 
+	\frac{5,16-5,05}{5,16}\cdot 100\% \approx 2,13\% 
 	\]
 
-	jest akceptowalna ze wzgledu na błedy toru pomiarowego.
+	Jest to akceptowalne ze względu na błędy toru pomiarowego.
 
 
 	\vspace{1cm}
 
 	\section{Charakterystyka mechaniczna}
+    
+    \subsection{Metodyka pomiarów}
+    Charakterystyka mechaniczna to zależność prędkości obrotowej od momentu hamującego $T_L$ przy stałej wartości napięcia uzwojeń twornika. Przeprowadzono pomiary dla dwóch wartości $U_a$ równych 150V i 200V. Dokonano tego, zmieniając obciążenie wprowadzone przez ALSPA pozostawiając napięcie twornika na stałym poziomie, a ograniczenie prądowe na maksymalnej, stałej wartości. Oczekujemy, że otrzymane przez nas proste po przeprowadzeniu regresji liniowej będą podobnie jak w poprzednim przypadku równoległe, ze względu na to, że różne napięcie w obu próbach wpłynie jedynie na przesunięcie prostej wyżej lub niżej.
+    Wzór na prędkość obrotową pozostaje ten sam co przy charakterystyce sterowania z niezerowym momentem obciążenia, jednak zmieniła się zmienna, na której pracujemy. 
 
+    
+    \subsection{Pomiary i opracowanie wyników}
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_mechaniczna_150V.pdf}
@@ -170,9 +204,20 @@
 
 	\vspace{1cm}
 
+    Tak jak widzimy z powyższych wykresów oraz wypisanych otrzymanych po regresji liniowej wzorów, proste są idealnie równoległe do siebie co zgadza się z założeniami teoretycznymi.
 	\section{Hamowanie dynamiczne obcowzbudne}
-
-	\begin{figure}[H]
+    \subsection{Metodyka pomiarów}
+    Hamowanie to polega na pracy maszyny jako prądnicy, w której obwód twornika jest odłączony od źródła napięcia ($U_a = 0$) i zamknięty przez rezystancję hamowania $R_{ad}$, natomiast obwód wzbudzenia zasilany jest w sposób ciągły. Dzięki utrzymaniu stałej wartości strumienia magnetycznego $k\phi$, wytworzony moment hamujący $T_H$ oraz prąd twornika są wprost proporcjonalne do prędkości kątowej wirnika. Zależność tę opisuje równanie:\\
+    \[
+    T_{H}= i_a\cdot k_{\phi}
+    \]
+   
+    Pomiary rozpoczęto od odłączenia zasilania twornika z przekształtnika DML przy jednoczesnym zachowaniu zasilania obwodu wzbudzenia, co było kluczowe dla utrzymania stałej wartości strumienia magnetycznego $k\phi$2. Zaciski twornika połączono z zewnętrznym rezystorem dodatkowym $R_{ad}$ o wartości $40\Omega$.
+    
+    
+    \subsection{Pomiary i opracowanie wyników}
+    
+    \begin{figure}[H]
 		\centering
 		\includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_hamowania_obco.pdf}
 		\caption{}
@@ -181,8 +226,18 @@
 	\vspace{1cm}
 
 	\section{Hamowanie dynamiczne samowzbudne}
-
-	\begin{figure}[H]
+    
+    \subsection{Metodyka pomiarów}
+    Hamowanie samowzbudne polega na pracy maszyny jako prądnicy obciążonej rezystancją $R_{ad}$, w której wzbudzenie następuje bez zewnętrznego źródła zasilania dzięki wykorzystaniu strumienia szczątkowego wynikającego z histerezy magnetycznej. Proces ten opiera się na dodatnim sprzężeniu zwrotnym, gdzie prąd płynący przez uzwojenie wzbudzenia zwiększa strumień, co z kolei indukuje wyższe napięcie w tworniku. 
+    Przeprowadzenie pomiarów rozpoczęto od odłączenia zasilania twornika z przekształtnika DML i bezpośredniego przyłączenia uzwojenia wzbudzenia wraz z rezystorem obciążającym $40\Omega$ do zacisków maszyny. Wykorzystując układ ALSPA jako napęd pomocniczy pracujący w trybie regulacji wektorowej, stopniowo zwiększano prędkość obrotową zespołu, notując wartości prądu i mocy elektromagnetycznej, która jest w całości rozpraszana w formie ciepła na rezystancjach obwodu. Wyznaczono zależność momentu hamującego od prędkości obrotowej. W celu obliczenia go można użyć wzoru:\\
+    \[
+    T_{H}= \frac{P}{\omega_r}
+    \]
+    
+    Tym razem nie wolno korzystać z zależności używanej przy hamowaniu obcowzbudnym, ponieważ w hamowaniu samowzbudnym prąd wzbudzenia jest generowany przez samą maszynę i zmienia się wraz z jej prędkością obrotową oraz napięciem indukowanym. Ponieważ strumień $k\phi$ jest bezpośrednio zależny od tego prądu, ulega on ciągłym zmianom zgodnie z nieliniową charakterystyką magnesowania obwodu magnetycznego.
+	\subsection{Pomiary i opracowanie wyników}
+    
+    \begin{figure}[H]
 		\centering
 		\includegraphics[width=0.7\linewidth]{../wykresy/pdf/char_hamowania_samo.pdf}
 		\caption{}
