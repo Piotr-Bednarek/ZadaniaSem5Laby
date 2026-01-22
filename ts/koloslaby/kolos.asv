@@ -1,0 +1,47 @@
+% Parametry przykładowe (np. masa-sprężyna-tłumik) [cite: 13]
+m = 1; k = 1; b = 2;
+
+% Macierze stanu [cite: 9, 10]
+A = [0 1; -k/m -b/m];
+B = [0; 1/m];
+C = [1 0];
+D = 0;
+
+% Tworzenie obiektu [cite: 14]
+sys = ss(A, B, C, D);
+
+% Analiza odpowiedzi [cite: 14, 16, 19]
+figure;
+subplot(2,1,1); step(sys); title('Odpowiedź skokowa'); grid on;
+subplot(2,1,2); initial(sys, [1; -5]); title('Odpowiedź na warunki początkowe'); grid on;
+
+% Charakterystyka Bodego [cite: 19]
+figure; bode(sys); grid on;
+
+%%
+
+% trzeba sobie zdefiniowac wlasne macierze A B C D 
+
+% Macierze sterowalności i obserwowalności 
+S = ctrb(A, B);
+O = obsv(A, C);
+
+% Sprawdzanie rzędu 
+n = size(A, 1);
+rzad_S = rank(S);
+rzad_O = rank(O);
+
+if rzad_S == n
+    disp('Układ jest w pełni sterowalny');
+else
+    disp('Układ NIE jest sterowalny');
+end
+
+if rzad_O == n
+    disp('Układ jest w pełni obserwowalny');
+else
+    disp('Układ NIE jest obserwowalny');
+end
+
+%% 
+
