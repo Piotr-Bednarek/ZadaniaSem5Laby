@@ -6,6 +6,3 @@
         2.1. Podać postać zlinearyzowanego układu wahadła względem punktu . Dlaczego zmienne stanu liniowej aproksymacji wahadła (zad. 2.1) dążą do nieskończoności przy pobudzeniu skokiem jednostkowym?
         2.2. Podać wyznaczone wartości wzmocnień K regulatora LQR. Na wspólnym wykresie przedstawić przebiegi pierwszej zmiennej stanu układu zamkniętego dla różnych warunków początkowych. Skomentować czy wykorzystane rozwiązanie jest globalne?
         2.3. Zamieścić wykres z zadania 3.4 oraz odpowiedzieć na postawione tam pytania. Skomentować uzyskane wyniki.
-    3. Ćwiczenie 13
-        3.1. Zaproponować parametryzację SDC dla wahadła i odpowiedzieć na pytania z zadania 2.2.
-        3.2. Przedstawić stosowne wykresy do zadania 2.4 oraz skomentować uzyskane wyniki.
