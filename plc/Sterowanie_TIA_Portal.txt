@@ -107,8 +107,8 @@ BEGIN
    END_IF;
 
    (* Konfiguracja timerów *)
-   TON_STOP(PT := T#5S, IN := FALSE, Q => , ET => );
-   TON_stan_poczatkowy(PT := T#20S, IN := FALSE, Q => , ET => );
+   TON_STOP(PT := T#5S, IN := FALSE);
+   TON_stan_poczatkowy(PT := T#20S, IN := FALSE);
 
    (* Automat stanów *)
    CASE State OF
@@ -222,25 +222,25 @@ BEGIN
          END_IF;
 
       10: (* Czekaj *)
-          kolejka_wDol[obecne_pietro] := FALSE;
-          kolejka_Winda[obecne_pietro] := FALSE;
-          TON_STOP.IN := TRUE;
-          ctrl_jedzie_wGore := FALSE;
-          ctrl_jedzie_wDol := FALSE;
-          IF TON_STOP.Q THEN
-             State := 1;
-             TON_STOP.IN := FALSE;
-          END_IF;
+         kolejka_wDol[obecne_pietro] := FALSE;
+         kolejka_Winda[obecne_pietro] := FALSE;
+         TON_STOP.IN := TRUE;
+         ctrl_jedzie_wGore := FALSE;
+         ctrl_jedzie_wDol := FALSE;
+         IF TON_STOP.Q THEN
+            State := 1;
+            TON_STOP.IN := FALSE;
+         END_IF;
 
       11: (* Sprawdź czy niższe piętra w kolejka_wGore true *)
-          IF (kolejka_wGore[index_n] AND index_n < obecne_pietro) THEN
-             State := 3;
-          ELSIF index_n >= obecne_pietro THEN
-             State := 1;
-             kolejka_wGore[obecne_pietro] := FALSE;
-          ELSE 
-             index_n := index_n + 1;
-          END_IF;
+         IF (kolejka_wGore[index_n] AND index_n < obecne_pietro) THEN
+            State := 3;
+         ELSIF index_n >= obecne_pietro THEN
+            State := 1;
+            kolejka_wGore[obecne_pietro] := FALSE;
+         ELSE 
+            index_n := index_n + 1;
+         END_IF;
 
       12: (* Sprawdź czy niższe piętra true *)
           IF ((kolejka_wDol[index_n] OR kolejka_Winda[index_n]) AND index_n < obecne_pietro) THEN
@@ -252,15 +252,15 @@ BEGIN
           END_IF;
 
       13: (* Czekaj *)
-           kolejka_wGore[obecne_pietro] := FALSE;
-           kolejka_Winda[obecne_pietro] := FALSE;
-           TON_STOP.IN := TRUE;
-           ctrl_jedzie_wGore := FALSE;
-           ctrl_jedzie_wDol := FALSE;
-           IF TON_STOP.Q THEN
-              State := 1;
-              TON_STOP.IN := FALSE;
-           END_IF;
+         kolejka_wGore[obecne_pietro] := FALSE;
+         kolejka_Winda[obecne_pietro] := FALSE;
+         TON_STOP.IN := TRUE;
+         ctrl_jedzie_wGore := FALSE;
+         ctrl_jedzie_wDol := FALSE;
+         IF TON_STOP.Q THEN
+            State := 1;
+            TON_STOP.IN := FALSE;
+         END_IF;
 
       ELSE
          State := 0;
