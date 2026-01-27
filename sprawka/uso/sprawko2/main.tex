@@ -125,7 +125,7 @@ Rank macierzy $A$ wynosi 2, a rank macierzy sterowalności również wynosi 2. D
     \includegraphics[width=0.7\linewidth]{img/lininielin45sqrt.png}
 \end{figure}
 
-Z przebiegów można wyciągnąć jednoznaczny wniosek: linearyzacja wokół punktu pracy dobrze opisuje model tylko w jego bezpośrednim otoczeniu. Dla małych zaburzeń od punktu równowagi (blisko $(0,0)$)(u=5) przebieg zmiennej zlinearyzowanej pokrywa się z przebiegiem modelu nieliniowego. Jednak przy zwiększaniu odchylenia od punktu pracy dokładność linearyzacji spada. Da się zaobserwowac wyraźne odchylenia pomiedzy modelem liniowym i nieliniowym dla wejscia $45\sqrt{2}$
+Z przebiegów można wyciągnąć jednoznaczny wniosek: linearyzacja wokół punktu pracy dobrze opisuje model tylko w jego bezpośrednim otoczeniu. Dla małych zaburzeń od punktu równowagi przebieg zmiennej z modelu zlinearyzowanego pokrywa się z przebiegiem modelu nieliniowego. Jednak przy zwiększaniu odchylenia od punktu pracy dokładność linearyzacji spada. Da się zaobserwowac wyraźne odchylenia pomiedzy modelem liniowym i nieliniowym dla wejscia $45\sqrt{2}$
 
 \subsection{Linearyzacja wokół punktu $x_0=[\pi/4,0]$, $u=45\sqrt{2}$}
 
@@ -150,7 +150,13 @@ A = \begin{bmatrix}
 \end{bmatrix}
 \]
 
-\textbf{Porównanie dla różnych wymuszeń stałych:}
+W przypadku linearyzacji wokół punkty innego niż $x_0=\begin{bmatrix} 0 & 0 \end{bmatrix}$, nalży wprowadzić nowe zmienne $\tilde{x}=x-x_0$ i $\tilde{u}=u-u_0$, ostatecznie otrzymano równania stanu w postacji:
+\[
+\dot{\tilde{x}}=A\tilde{x}+B\tilde{u}
+\]
+
+tutaj cos jeszcze 
+
 
 \begin{figure}[H]
     \centering
@@ -160,7 +166,7 @@ A = \begin{bmatrix}
 
 Analogicznie do zadania 1.1, model zlinearyzowany prawidłowo opisuje zachowanie systemu w otoczeniu punktu pracy. Odchylenia rosną wraz ze wzrostem odległości od punktu równowagi.
 
-\subsection*{Zadanie 1.3: Linearyzacja metodą SDC (Successive Discretization and Continualization)}
+\subsection{Linearyzacja metodą SDC}
 
 Metoda SDC polega na dyskretyzacji systemu w każdym kroku czasowym wokół bieżącego stanu, a następnie rozwiązaniu równań dyskretnych. Parametry macierzy $A$ są aktualizowane w zależności od bieżącego stanu systemu:
 
@@ -172,22 +178,55 @@ dla $x_1 \neq 0$, co pozwala na lepsze śledzenie nieliniowych zmian systemu w p
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\linewidth]{img/lab10_fig03.png}
-    \caption{Przebieg pierwszej zmiennej stanu przy wykorzystaniu metody SDC}
+    \includegraphics[width=0.7\linewidth]{img/sdcinonlin.png}
+    \caption{Przebieg położenia dla modelu nieliniowego i zlinearyzowanego metoda SDC}
 \end{figure}
 
-\textbf{Komentarz wyników metody SDC:}
+Przebieg położenia przy wytraceniu układu z równowagi warunkami początkowymi $x_0=\begin{bmatrix}
+    \pi/4 & 0
+\end{bmatrix}$
 
 Metoda SDC oferuje lepszą dokładność niż klasyczna linearyzacja, ponieważ parametry modelu są adaptacyjnie aktualizowane na podstawie bieżącego stanu. Pozwala to na śledzenie trajektorii dala daleko od punktu linearyzacji.
 
-\textbf{Potencjalne ograniczenia metody SDC:}
+\subsection{Kod}
 
-\begin{enumerate}
-    \item Złożoność obliczeniowa: Wymaga obliczenia nowych macierzy $A$ i $B$ w każdym kroku czasowym
-    \item Niestabilność: Dla dużych kroku czasowych metoda może stracić stabilność
-    \item Ograniczenia fizyczne: Metoda nie uwzględnia ograniczeń na sterowaniu lub zmiennych stanu
-    \item Brak gwarancji zbieżności: Dla niektórych warunków początkowych może nie zbiegać do równowagi
-\end{enumerate}
+\begin{lstlisting}
+    m, l, J, g, d = 9.0, 1.0, 1.0, 10.0, 0.5
+t_sim = np.arange(0, 10, 0.01)
+
+x_0 = [np.pi/4, 0] # x1 = theta, x2 = theta_dot
+results_sdc = [x_0]
+
+curr_x = x_0
+
+for i in range(len(t_sim) - 1):
+    x1, x2 = curr_x
+    
+    if abs(x1) < 1e-6:
+        a21 = -(m * g * l) / J
+    else:
+        a21 = -(m * g * l / J) * (np.sin(x1) / x1)
+    
+    A = [[0, 1],
+         [a21, -d/J]]
+    B = [[0], [1/J]]
+    C = [[1, 0], [0, 1]]
+    D = [[0], [0]]
+    
+    sys = signal.StateSpace(A, B, C, D)
+    
+    t_step = [0, 0.01]
+    u_step = [0, 0] 
+    
+    _, _, x_out = signal.lsim(sys, U=u_step, T=t_step, X0=curr_x)
+    
+    curr_x = x_out[-1]
+    results_sdc.append(curr_x)
+
+results_sdc = np.array(results_sdc)
+    
+\end{lstlisting}
+
 
 \section{Ćwiczenie 12: Regulator LQR dla układów nieliniowych}
 
