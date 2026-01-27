@@ -170,6 +170,17 @@ Analogicznie do zadania 1.1, model zlinearyzowany prawidłowo opisuje zachowanie
 
 Metoda SDC polega na dyskretyzacji systemu w każdym kroku czasowym wokół bieżącego stanu, a następnie rozwiązaniu równań dyskretnych. Parametry macierzy $A$ są aktualizowane w zależności od bieżącego stanu systemu:
 
+TUTAJ COS DOPISAC I DAC PELNA MACIERSZ 
+
+\[
+\dot{x}=\begin{bmatrix}
+    0 & 1 \\
+    -\frac{mgl}{J}\frac{sin(x_1)}{x_1} & -\frac{d}{J} 
+\end{bmatrix}x+\begin{bmatrix}
+    0 \\ \frac{1}{J}
+\end{bmatrix}u
+\]
+
 \[
 a_{21} = -\frac{mgl}{J} \cdot \frac{\sin(x_1)}{x_1}
 \]
@@ -184,7 +195,7 @@ dla $x_1 \neq 0$, co pozwala na lepsze śledzenie nieliniowych zmian systemu w p
 
 Przebieg położenia przy wytraceniu układu z równowagi warunkami początkowymi $x_0=\begin{bmatrix}
     \pi/4 & 0
-\end{bmatrix}$
+\end{bmatrix}$, 
 
 Metoda SDC oferuje lepszą dokładność niż klasyczna linearyzacja, ponieważ parametry modelu są adaptacyjnie aktualizowane na podstawie bieżącego stanu. Pozwala to na śledzenie trajektorii dala daleko od punktu linearyzacji.
 
