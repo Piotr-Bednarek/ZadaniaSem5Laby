@@ -1,0 +1,260 @@
+FUNCTION_BLOCK Sterowanie
+VAR_INPUT
+	//Przyciski we windzie
+	przycisk_winda_1 : BOOL;
+	przycisk_winda_2 : BOOL;
+	przycisk_winda_3 : BOOL;
+	przycisk_winda_4 : BOOL;
+	//***************************************//
+	//Przyciski na piętrach
+	przycisk_pietro_1_wGore : BOOL;
+	
+	przycisk_pietro_2_wGore : BOOL;
+	przycisk_pietro_2_wDol : BOOL;
+	
+	przycisk_pietro_3_wGore : BOOL;
+	przycisk_pietro_3_wDol : BOOL;
+	
+	przycisk_pietro_4_wDol : BOOL;
+	//***************************************//
+	Pietro_1_krancowka : BOOL;
+	Pietro_2_krancowka : BOOL;
+	Pietro_3_krancowka : BOOL;
+	Pietro_4_krancowka : BOOL;
+END_VAR
+VAR_OUTPUT
+	ctrl_szybko : BOOL;
+	ctrl_jedzie_wGore : BOOL;
+	ctrl_jedzie_wDol : BOOL;	
+END_VAR
+VAR
+	TON_stan_poczatkowy : TON; //timer stanu początkowego
+	TON_STOP : TON; //timer czekania na pietrze
+
+	kolejka_wDol : ARRAY[1..4] OF BOOL;
+	kolejka_wGore : ARRAY[1..4] OF BOOL;
+	kolejka_Winda : ARRAY[1..4] OF BOOL;
+	obecne_pietro : INT;
+	index : INT := 0;
+	index_n : INT := 0;
+	State : INT := 0;
+END_VAR
+
+
+
+
+
+
+
+
+
+
+
+IF Pietro_1_krancowka THEN
+	obecne_pietro := 1;
+END_IF
+IF Pietro_2_krancowka THEN
+	obecne_pietro := 2;
+END_IF
+IF Pietro_3_krancowka THEN
+	obecne_pietro := 3;
+END_IF
+IF Pietro_4_krancowka THEN
+	obecne_pietro := 4;
+END_IF
+
+
+IF przycisk_winda_1 THEN
+	kolejka_Winda[1] := TRUE;
+END_IF
+IF przycisk_winda_2 THEN
+	kolejka_Winda[2] := TRUE;
+END_IF
+IF przycisk_winda_3 THEN
+	kolejka_Winda[3] := TRUE;
+END_IF	
+IF przycisk_winda_4 THEN
+	kolejka_Winda[4] := TRUE;
+END_IF	
+
+IF przycisk_pietro_1_wGore THEN
+	kolejka_wGore[1] := TRUE;
+	przycisk_pietro_1_wGore := FALSE;
+END_IF
+IF przycisk_pietro_2_wGore THEN
+	kolejka_wGore[2] := TRUE;
+	przycisk_pietro_2_wGore := FALSE;
+END_IF
+IF przycisk_pietro_3_wGore THEN
+	kolejka_wGore[3] := TRUE;
+	przycisk_pietro_3_wGore := FALSE;
+END_IF	
+
+IF przycisk_pietro_2_wDol THEN
+	kolejka_wDol[2] := TRUE;
+	przycisk_pietro_2_wDol := FALSE;
+END_IF	
+IF przycisk_pietro_3_wDol THEN
+	kolejka_wDol[3] := TRUE;
+	przycisk_pietro_3_wDol := FALSE;
+END_IF	
+IF przycisk_pietro_4_wDol THEN
+	kolejka_wDol[4] := TRUE;
+	przycisk_pietro_4_wDol := FALSE;
+END_IF	
+
+//***********************************//
+TON_STOP(PT := T#5S);
+TON_stan_poczatkowy(PT := T#20S);
+
+CASE State OF
+    0:   (* Start programu *)
+		ctrl_jedzie_wGore := FALSE;
+		ctrl_jedzie_wDol := TRUE;
+		TON_stan_poczatkowy.IN := TRUE;
+		IF TON_stan_poczatkowy.Q THEN
+			State := 1;
+			index := 1;
+			obecne_pietro := 1;
+			ctrl_jedzie_wGore := FALSE;
+			ctrl_jedzie_wDol := FALSE;
+			TON_stan_poczatkowy.IN := FALSE;
+		END_IF;
+    1:   (* Stop *)
+		IF kolejka_wDol[index] OR kolejka_wGore[index] OR kolejka_Winda[index] THEN
+			IF obecne_pietro < index THEN
+				State := 2;
+			END_IF
+			IF obecne_pietro > index THEN
+				State := 3;
+		    END_IF
+		ELSE
+			index := index + 1;
+			IF index > 4 THEN
+				index := 1;
+			END_IF;
+		END_IF
+
+    2:   (* jazda do góry *)
+		ctrl_jedzie_wGore := TRUE;
+		ctrl_jedzie_wDol := FALSE;
+        IF kolejka_wGore[obecne_pietro] OR kolejka_Winda[obecne_pietro] THEN
+			State := 4; //czekaj gora
+		ELSIF kolejka_wDol[obecne_pietro] THEN
+			State := 6; //sprawdz czy wyzsze pietra true
+			index_n := 4;
+		END_IF
+		
+	3:   (* jazda w dół *)
+		ctrl_jedzie_wGore := FALSE;
+		ctrl_jedzie_wDol := TRUE;
+        IF kolejka_wDol[obecne_pietro] OR kolejka_Winda[obecne_pietro] THEN
+			State := 5; //czekaj dol
+		ELSIF kolejka_wGore[obecne_pietro] THEN
+			State := 12; //sprawdz czy nizsze pietra true
+			index_n := 1;
+		END_IF
+
+		
+		
+	4:	 (* czekaj góra *)
+		kolejka_wGore[obecne_pietro] := FALSE;
+		kolejka_Winda[obecne_pietro] := FALSE;
+		TON_STOP.IN := TRUE;
+		ctrl_jedzie_wGore := FALSE;
+		ctrl_jedzie_wDol := FALSE;
+		IF TON_STOP.Q THEN
+			State := 7; //czekaj gora inkrementuj index
+			TON_STOP.IN := FALSE;
+		END_IF;
+	5:	 (* czekaj dół *)
+		kolejka_wDol[obecne_pietro] := FALSE;
+		kolejka_Winda[obecne_pietro] := FALSE;
+		TON_STOP.IN := TRUE;
+		ctrl_jedzie_wGore := FALSE;
+		ctrl_jedzie_wDol := FALSE;
+		IF TON_STOP.Q THEN
+			State := 8; (* czekaj dol dekrementuj index *)
+			TON_STOP.IN := FALSE;
+		END_IF;
+	6:	 (* sprawdz czy wyzsze pietra true *)
+        IF (kolejka_wGore[index_n] OR kolejka_Winda[index_n]) AND index_n > obecne_pietro THEN
+			State := 2;
+		ELSIF index_n <= obecne_pietro THEN
+			State := 10;//czekaj
+		ELSE 
+			index_n := index_n - 1;
+		END_IF
+	7:	 (* czekaj gora inkrementuj index *)
+		index := index + 1;
+		IF index > 4 THEN
+			index := 1;
+			State := 9; //sprawdz czy wyzsze pietra w kolejka_wDol true
+			index_n := 4;
+		ELSIF kolejka_wGore[index] OR kolejka_Winda[index] THEN
+			State := 2;
+		END_IF
+			
+	8:   (* czekaj dol dekrementuj index *)
+		index := index - 1;
+		IF index < 1 THEN
+			index := 4;
+			State := 11; //sprawdz czy nizsze pietra w kolejka_wgore true
+			index_n := 1;
+		ELSIF kolejka_wDol[index] OR kolejka_Winda[index] THEN
+			State := 3;
+		END_IF
+		
+	9:   (* sprawdz czy wyzsze pietra w kolejka_wDol true *)
+        IF kolejka_wDol[index_n] AND index_n > obecne_pietro THEN
+			State := 2;
+		ELSIF index_n <= obecne_pietro THEN
+			State := 1;
+			kolejka_wDol[obecne_pietro] := FALSE;
+		ELSE 
+			index_n := index_n - 1;
+		END_IF
+	10: (*czekaj*)
+		kolejka_wDol[obecne_pietro] := FALSE;
+		kolejka_Winda[obecne_pietro] := FALSE;
+		TON_STOP.IN := TRUE;
+		ctrl_jedzie_wGore := FALSE;
+		ctrl_jedzie_wDol := FALSE;
+		IF TON_STOP.Q THEN
+			State := 1; //wroc do stop
+			TON_STOP.IN := FALSE;
+		END_IF;
+	11: 	//sprawdz czy nizsze pietra w kolejka_wgore true
+	    IF kolejka_wGore[index_n] AND index_n < obecne_pietro THEN
+			State := 3;
+		ELSIF index_n >= obecne_pietro THEN
+			State := 1;
+			kolejka_wGore[obecne_pietro] := FALSE;
+		ELSE 
+			index_n := index_n + 1;
+		END_IF
+	12:  (* sprawdz czy nizsze pietra true *)
+        IF (kolejka_wDol[index_n] OR kolejka_Winda[index_n]) AND index_n < obecne_pietro THEN
+			State := 3;
+		ELSIF index_n >= obecne_pietro THEN
+			State := 13;//czekaj
+		ELSE 
+			index_n := index_n + 1;
+		END_IF
+	13: (*czekaj*)
+		kolejka_wGore[obecne_pietro] := FALSE;
+		kolejka_Winda[obecne_pietro] := FALSE;
+		TON_STOP.IN := TRUE;
+		ctrl_jedzie_wGore := FALSE;
+		ctrl_jedzie_wDol := FALSE;
+		IF TON_STOP.Q THEN
+			State := 1; //wroc do stop
+			TON_STOP.IN := FALSE;
+		END_IF;
+	ELSE
+		State := 0;
+END_CASE;
+
+
+
+

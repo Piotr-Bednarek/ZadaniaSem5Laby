@@ -1,0 +1,269 @@
+// ====================================================================
+// TIA PORTAL VERSION - Elevator Control Block (Blok Sterowania Windą)
+// Converted from CODESYS
+// ====================================================================
+
+FUNCTION_BLOCK "Sterowanie"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT 
+      (* Przyciski we windzie *)
+      przycisk_winda_1 : Bool;
+      przycisk_winda_2 : Bool;
+      przycisk_winda_3 : Bool;
+      przycisk_winda_4 : Bool;
+      (* Przyciski na piętrach *)
+      przycisk_pietro_1_wGore : Bool;
+      przycisk_pietro_2_wGore : Bool;
+      przycisk_pietro_2_wDol : Bool;
+      przycisk_pietro_3_wGore : Bool;
+      przycisk_pietro_3_wDol : Bool;
+      przycisk_pietro_4_wDol : Bool;
+      (* Czujniki krańcowe *)
+      Pietro_1_krancowka : Bool;
+      Pietro_2_krancowka : Bool;
+      Pietro_3_krancowka : Bool;
+      Pietro_4_krancowka : Bool;
+   END_VAR
+
+   VAR_OUTPUT 
+      ctrl_szybko : Bool;
+      ctrl_jedzie_wGore : Bool;
+      ctrl_jedzie_wDol : Bool;
+   END_VAR
+
+   VAR 
+      TON_stan_poczatkowy : TON; (* Timer stanu początkowego *)
+      TON_STOP : TON; (* Timer czekania na pietrze *)
+      kolejka_wDol : ARRAY[1..4] OF Bool;
+      kolejka_wGore : ARRAY[1..4] OF Bool;
+      kolejka_Winda : ARRAY[1..4] OF Bool;
+      obecne_pietro : Int;
+      index : Int := 0;
+      index_n : Int := 0;
+      State : Int := 0;
+   END_VAR
+
+BEGIN
+
+   (* Sprawdzenie czujników krańcowych *)
+   IF Pietro_1_krancowka THEN
+      obecne_pietro := 1;
+   END_IF;
+   
+   IF Pietro_2_krancowka THEN
+      obecne_pietro := 2;
+   END_IF;
+   
+   IF Pietro_3_krancowka THEN
+      obecne_pietro := 3;
+   END_IF;
+   
+   IF Pietro_4_krancowka THEN
+      obecne_pietro := 4;
+   END_IF;
+
+   (* Obsługa przycisków wewnątrz windy *)
+   IF przycisk_winda_1 THEN
+      kolejka_Winda[1] := TRUE;
+   END_IF;
+   
+   IF przycisk_winda_2 THEN
+      kolejka_Winda[2] := TRUE;
+   END_IF;
+   
+   IF przycisk_winda_3 THEN
+      kolejka_Winda[3] := TRUE;
+   END_IF;
+   
+   IF przycisk_winda_4 THEN
+      kolejka_Winda[4] := TRUE;
+   END_IF;
+
+   (* Obsługa przycisków na piętrach - kierunek w górę *)
+   IF przycisk_pietro_1_wGore THEN
+      kolejka_wGore[1] := TRUE;
+   END_IF;
+   
+   IF przycisk_pietro_2_wGore THEN
+      kolejka_wGore[2] := TRUE;
+   END_IF;
+   
+   IF przycisk_pietro_3_wGore THEN
+      kolejka_wGore[3] := TRUE;
+   END_IF;
+
+   (* Obsługa przycisków na piętrach - kierunek w dół *)
+   IF przycisk_pietro_2_wDol THEN
+      kolejka_wDol[2] := TRUE;
+   END_IF;
+   
+   IF przycisk_pietro_3_wDol THEN
+      kolejka_wDol[3] := TRUE;
+   END_IF;
+   
+   IF przycisk_pietro_4_wDol THEN
+      kolejka_wDol[4] := TRUE;
+   END_IF;
+
+   (* Konfiguracja timerów *)
+   TON_STOP(PT := T#5S, IN := FALSE, Q => , ET => );
+   TON_stan_poczatkowy(PT := T#20S, IN := FALSE, Q => , ET => );
+
+   (* Automat stanów *)
+   CASE State OF
+      0: (* Start programu *)
+         ctrl_jedzie_wGore := FALSE;
+         ctrl_jedzie_wDol := TRUE;
+         TON_stan_poczatkowy.IN := TRUE;
+         IF TON_stan_poczatkowy.Q THEN
+            State := 1;
+            index := 1;
+            obecne_pietro := 1;
+            ctrl_jedzie_wGore := FALSE;
+            ctrl_jedzie_wDol := FALSE;
+            TON_stan_poczatkowy.IN := FALSE;
+         END_IF;
+
+      1: (* Stop *)
+         IF (kolejka_wDol[index] OR kolejka_wGore[index] OR kolejka_Winda[index]) THEN
+            IF obecne_pietro < index THEN
+               State := 2;
+            END_IF;
+            IF obecne_pietro > index THEN
+               State := 3;
+            END_IF;
+         ELSE
+            index := index + 1;
+            IF index > 4 THEN
+               index := 1;
+            END_IF;
+         END_IF;
+
+      2: (* Jazda do góry *)
+         ctrl_jedzie_wGore := TRUE;
+         ctrl_jedzie_wDol := FALSE;
+         IF (kolejka_wGore[obecne_pietro] OR kolejka_Winda[obecne_pietro]) THEN
+            State := 4;
+         ELSIF kolejka_wDol[obecne_pietro] THEN
+            State := 6;
+            index_n := 4;
+         END_IF;
+
+      3: (* Jazda w dół *)
+         ctrl_jedzie_wGore := FALSE;
+         ctrl_jedzie_wDol := TRUE;
+         IF (kolejka_wDol[obecne_pietro] OR kolejka_Winda[obecne_pietro]) THEN
+            State := 5;
+         ELSIF kolejka_wGore[obecne_pietro] THEN
+            State := 12;
+            index_n := 1;
+         END_IF;
+
+      4: (* Czekaj góra *)
+         kolejka_wGore[obecne_pietro] := FALSE;
+         kolejka_Winda[obecne_pietro] := FALSE;
+         TON_STOP.IN := TRUE;
+         ctrl_jedzie_wGore := FALSE;
+         ctrl_jedzie_wDol := FALSE;
+         IF TON_STOP.Q THEN
+            State := 7;
+            TON_STOP.IN := FALSE;
+         END_IF;
+
+      5: (* Czekaj dół *)
+         kolejka_wDol[obecne_pietro] := FALSE;
+         kolejka_Winda[obecne_pietro] := FALSE;
+         TON_STOP.IN := TRUE;
+         ctrl_jedzie_wGore := FALSE;
+         ctrl_jedzie_wDol := FALSE;
+         IF TON_STOP.Q THEN
+            State := 8;
+            TON_STOP.IN := FALSE;
+         END_IF;
+
+      6: (* Sprawdź czy wyższe piętra true *)
+         IF ((kolejka_wGore[index_n] OR kolejka_Winda[index_n]) AND index_n > obecne_pietro) THEN
+            State := 2;
+         ELSIF index_n <= obecne_pietro THEN
+            State := 10;
+         ELSE 
+            index_n := index_n - 1;
+         END_IF;
+
+      7: (* Czekaj góra inkrementuj index *)
+         index := index + 1;
+         IF index > 4 THEN
+            index := 1;
+            State := 9;
+            index_n := 4;
+         ELSIF (kolejka_wGore[index] OR kolejka_Winda[index]) THEN
+            State := 2;
+         END_IF;
+
+      8: (* Czekaj dół dekrementuj index *)
+         index := index - 1;
+         IF index < 1 THEN
+            index := 4;
+            State := 11;
+            index_n := 1;
+         ELSIF (kolejka_wDol[index] OR kolejka_Winda[index]) THEN
+            State := 3;
+         END_IF;
+
+      9: (* Sprawdź czy wyższe piętra w kolejka_wDol true *)
+         IF (kolejka_wDol[index_n] AND index_n > obecne_pietro) THEN
+            State := 2;
+         ELSIF index_n <= obecne_pietro THEN
+            State := 1;
+            kolejka_wDol[obecne_pietro] := FALSE;
+         ELSE 
+            index_n := index_n - 1;
+         END_IF;
+
+      10: (* Czekaj *)
+          kolejka_wDol[obecne_pietro] := FALSE;
+          kolejka_Winda[obecne_pietro] := FALSE;
+          TON_STOP.IN := TRUE;
+          ctrl_jedzie_wGore := FALSE;
+          ctrl_jedzie_wDol := FALSE;
+          IF TON_STOP.Q THEN
+             State := 1;
+             TON_STOP.IN := FALSE;
+          END_IF;
+
+      11: (* Sprawdź czy niższe piętra w kolejka_wGore true *)
+          IF (kolejka_wGore[index_n] AND index_n < obecne_pietro) THEN
+             State := 3;
+          ELSIF index_n >= obecne_pietro THEN
+             State := 1;
+             kolejka_wGore[obecne_pietro] := FALSE;
+          ELSE 
+             index_n := index_n + 1;
+          END_IF;
+
+      12: (* Sprawdź czy niższe piętra true *)
+          IF ((kolejka_wDol[index_n] OR kolejka_Winda[index_n]) AND index_n < obecne_pietro) THEN
+             State := 3;
+          ELSIF index_n >= obecne_pietro THEN
+             State := 13;
+          ELSE 
+             index_n := index_n + 1;
+          END_IF;
+
+      13: (* Czekaj *)
+           kolejka_wGore[obecne_pietro] := FALSE;
+           kolejka_Winda[obecne_pietro] := FALSE;
+           TON_STOP.IN := TRUE;
+           ctrl_jedzie_wGore := FALSE;
+           ctrl_jedzie_wDol := FALSE;
+           IF TON_STOP.Q THEN
+              State := 1;
+              TON_STOP.IN := FALSE;
+           END_IF;
+
+      ELSE
+         State := 0;
+   END_CASE;
+
+END_FUNCTION_BLOCK
